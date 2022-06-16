@@ -2,18 +2,20 @@ import { supabaseServer } from "../../lib/supabase";
 
 const handler = async (req, res) => {
   if (req.method === 'POST') {
+    let body = JSON.parse(req.body);
+
     try {
-      const { data: user, error } = await supabaseServer.auth.api
-        .inviteUserByEmail(req?.body);
+      const { data, error } = await supabaseServer
+        .from('profiles')
+        .select()
+        .eq('company_id', body?.company_id);
 
       if (error) 
         throw error;
 
-      res.status(200).json({ user: user, error: null })
+      res.status(200).json({ employees: data, error: null })
     } catch (error) {
       res.status(500).json({ error: error });
-
-      return;
     }
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 
-import { supabase } from '../utils/supabaseClient'
+import { supabaseClient } from '../lib/supabase'
 
 import Head from 'next/head'
 import Image from 'next/image'
@@ -31,16 +31,18 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
 
   const signIn = async (email) => {
+    setLoading(true);
+
     try {
-      const { error } = await supabase.auth.signIn({ email }, {
-        redirectTo: 'http://localhost:3000/app'
+      const { error } = await supabaseClient.auth.signIn({ email }, {
+        redirectTo: 'http://localhost:3000/home'
       });
       if (error) throw error
       alert('Check your email for the login link!')
     } catch (error) {
       alert(error.error_description || error.message)
     } finally {
-
+      setLoading(false);
     }
   }
 
@@ -180,6 +182,8 @@ const SignIn = () => {
 const Dashboard = (props) => {
   const router = useRouter();
 
+  const [currentTab, setCurrentTab] = useState(0);
+
   const [profile, setProfile] = useState(props.profile);
   const [company, setCompany] = useState();
 
@@ -191,7 +195,7 @@ const Dashboard = (props) => {
 
   const signOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut();
+      const { error } = await supabaseClient.auth.signOut();
       if (error) throw error
       alert('Signed out.')
     } catch (error) {
@@ -207,18 +211,32 @@ const Dashboard = (props) => {
 
   const getCompany = async () => {
     try {
-      const { data, error } = await supabase
-        .from('companies')
-        .select()
-        .eq('id', profile?.company_id);
+      const res = await fetch(`/api/getCompany`, {
+        method: 'POST',
+        body: JSON.stringify({
+          company_id: profile?.company_id
+        })
+      });
 
-      if (error) throw error
+      const data = await res.json();
 
-      setCompany(data[0]);
+      if (!data) {
+        return {
+          notFound: true,
+        }
+      } else {
+        if (data.error) {
+          alert(data.error.message);
+        } else {
+          if (data.length === 0) {
+            alert("not found");
+          } else {
+            setCompany(data?.company);
+          }
+        }
+      }
     } catch (error) {
-      alert(error.error_description || error.message)
-    } finally {
-
+      alert(error);
     }
   };
 
@@ -231,12 +249,12 @@ const Dashboard = (props) => {
   }
 
   const navigation = [
-    { name: 'Home', onClick: () => { }, link: 'home', current: true },
-    { name: 'Profile', onClick: () => { }, link: 'profile', current: false },
-    { name: 'Employees', onClick: () => { }, link: 'employees', current: false },
-    { name: 'Company', onClick: () => { }, link: 'company', current: false },
-    { name: 'Access', onClick: () => { }, link: 'access', current: false },
-    { name: 'Help', onClick: () => { }, link: 'help', current: false },
+    { name: 'Home', onClick: () => { }, link: 'home', current: currentTab === 0 },
+    { name: 'Profile', onClick: () => { }, link: 'profile', current: currentTab === 1 },
+    { name: 'Employees', onClick: () => { }, link: 'employees', current: currentTab === 2 },
+    { name: 'Company', onClick: () => { }, link: 'company', current: currentTab === 3 },
+    { name: 'Access', onClick: () => { }, link: 'access', current: currentTab === 4 },
+    { name: 'Help', onClick: () => { }, link: 'help', current: currentTab === 5 },
   ]
 
   const userNavigation = [
@@ -360,6 +378,10 @@ const Dashboard = (props) => {
   }, [profile]);
 
   const Home = () => {
+    useEffect(() => {
+      setCurrentTab(0);
+    });
+
     return (
       <main className="-mt-24 pb-8">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -511,7 +533,7 @@ const Dashboard = (props) => {
                 <div className="rounded-lg bg-white overflow-hidden shadow">
                   <div className="p-6">
                     <h2 className="text-base font-medium text-gray-900" id="recent-hires-title">
-                      Recent Hires
+                      Upcoming Holidays
                     </h2>
                     <div className="flow-root mt-6">
                       <ul role="list" className="-my-5 divide-y divide-gray-200">
@@ -557,10 +579,8 @@ const Dashboard = (props) => {
   }
 
   const Employees = () => {
-    useEffect(() => {
-
-    });
-
+    
+    const [employees, setEmployees] = useState([]);
     const people = [
       {
         name: 'Lindsay Walton',
@@ -575,7 +595,7 @@ const Dashboard = (props) => {
         name: 'Lindsay Walto',
         title: 'Front-end Developer',
         department: 'Optimization',
-        email: 'lindsay.walton@example.com',
+        email: 'lindsay.walto@example.com',
         role: 'Member',
         image:
           'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
@@ -584,12 +604,50 @@ const Dashboard = (props) => {
         name: 'Lindsay Walt',
         title: 'Front-end Developer',
         department: 'Optimization',
-        email: 'lindsay.walton@example.com',
+        email: 'lindsay.walt@example.com',
         role: 'Member',
         image:
           'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
       },
     ]
+
+    const getEmployees = async () => {
+      try {
+        const res = await fetch(`/api/getEmployees`, {
+          method: 'POST',
+          body: JSON.stringify({
+            company_id: profile?.company_id
+          })
+        });
+  
+        const data = await res.json();
+  
+        if (!data) {
+          return {
+            notFound: true,
+          }
+        } else {
+          if (data.error) {
+            alert(data.error.message);
+          } else {
+            if (data.length === 0) {
+              alert("not found");
+            } else {
+              setEmployees(data?.employees);
+              console.log(employees);
+            }
+          }
+        }
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    useEffect(() => {
+      setCurrentTab(2);
+
+      console.log('effe')
+    });
 
     return (
       <main className="-mt-24 pb-8">
@@ -933,7 +991,7 @@ const SetupCompany = (props) => {
 
   const submitForm = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('companies')
         .insert([
           { company_name: companyName, about: companyAbout }
@@ -943,7 +1001,7 @@ const SetupCompany = (props) => {
       let companyID = data[0].id;
 
       try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from('profiles')
           .insert([
             { id: props.session.user.id, first_name: firstName, last_name: lastName, company_id: companyID, access_level: 1, designation: designation }
@@ -1186,7 +1244,7 @@ const InviteEmployee = (props) => {
 
   const createProfile = async (userID) => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('profiles')
         .insert([
           { id: userID, first_name: firstName, last_name: lastName, company_id: props?.company?.id, access_level: 2, designation: designation }
@@ -1339,31 +1397,40 @@ export default function App() {
 
   const getProfile = async () => {
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select()
-        .eq('id', session?.user.id);
+      const res = await fetch(`/api/getProfile`, {
+        method: 'POST',
+        body: JSON.stringify({
+          userID: session?.user?.id
+        })
+      });
 
-      if (error) {
-        throw error;
-      }
+      const data = await res.json();
 
-      if (data.length === 0) {
-        setNewUser(true);
+      if (!data) {
+        return {
+          notFound: true,
+        }
       } else {
-        setNewUser(false);
-        setProfile(data[0]);
+        if (data.error) {
+          alert(data.error.message);
+        } else {
+          if (data.length === 0) {
+            setNewUser(true);
+          } else {
+            setNewUser(false);
+            setProfile(data?.profile);
+          }
+        }
       }
-
     } catch (error) {
-      alert(error.error_description || error.message);
+      alert(error);
     }
   }
 
   useEffect(() => {
-    setSession(supabase.auth.session())
+    setSession(supabaseClient.auth.session())
 
-    supabase.auth.onAuthStateChange((_event, session) => {
+    supabaseClient.auth.onAuthStateChange((_event, session) => {
       setSession(session)
     })
   }, []);

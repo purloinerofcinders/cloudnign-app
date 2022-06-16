@@ -5,6 +5,9 @@ import { supabase } from '../utils/supabaseClient'
 
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
+
 import styles from '../styles/Home.module.css'
 
 import { Fragment } from 'react'
@@ -111,7 +114,7 @@ const SignIn = () => {
               </div>
             </form>
 
-            <div className="mt-6">
+            {/* <div className="mt-6">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-300" />
@@ -166,7 +169,7 @@ const SignIn = () => {
                   </a>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -175,7 +178,10 @@ const SignIn = () => {
 }
 
 const Dashboard = (props) => {
+  const router = useRouter();
+
   const [profile, setProfile] = useState(props.profile);
+  const [company, setCompany] = useState();
 
   const [openInviteEmployee, setOpenInviteEmployee] = useState(false);
 
@@ -197,23 +203,40 @@ const Dashboard = (props) => {
 
   const inviteEmployee = () => {
     setOpenInviteEmployee(true);
-  }
+  };
+
+  const getCompany = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('companies')
+        .select()
+        .eq('id', profile?.company_id);
+
+      if (error) throw error
+
+      setCompany(data[0]);
+    } catch (error) {
+      alert(error.error_description || error.message)
+    } finally {
+
+    }
+  };
 
   const user = {
     name: profile?.first_name + ' ' + profile?.last_name,
     email: 'chelsea.hagon@example.com',
-    role: 'Human Resources Manager',
+    role: profile?.designation,
     imageUrl:
       'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   }
 
   const navigation = [
-    { name: 'Home', href: '#', current: true },
-    { name: 'Profile', href: '#', current: false },
-    { name: 'Employees', href: '#', current: false },
-    { name: 'Company', href: '#', current: false },
-    { name: 'Access', href: '#', current: false },
-    { name: 'Help', href: '#', current: false },
+    { name: 'Home', onClick: () => { }, link: 'home', current: true },
+    { name: 'Profile', onClick: () => { }, link: 'profile', current: false },
+    { name: 'Employees', onClick: () => { }, link: 'employees', current: false },
+    { name: 'Company', onClick: () => { }, link: 'company', current: false },
+    { name: 'Access', onClick: () => { }, link: 'access', current: false },
+    { name: 'Help', onClick: () => { }, link: 'help', current: false },
   ]
 
   const userNavigation = [
@@ -331,6 +354,335 @@ const Dashboard = (props) => {
     setProfile(props.profile);
   }, [props]);
 
+  useEffect(() => {
+    if (profile)
+      getCompany();
+  }, [profile]);
+
+  const Home = () => {
+    return (
+      <main className="-mt-24 pb-8">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+          <h1 className="sr-only">Profile</h1>
+          {/* Main 3 column grid */}
+          <div className="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
+            {/* Left column */}
+            <div className="grid grid-cols-1 gap-4 lg:col-span-2">
+              {/* Welcome panel */}
+              <section aria-labelledby="profile-overview-title">
+                <div className="rounded-lg bg-white overflow-hidden shadow">
+                  <h2 className="sr-only" id="profile-overview-title">
+                    Profile Overview
+                  </h2>
+                  <div className="bg-white p-6">
+                    <div className="sm:flex sm:items-center sm:justify-between">
+                      <div className="sm:flex sm:space-x-5">
+                        <div className="flex-shrink-0">
+                          <img className="mx-auto h-20 w-20 rounded-full" src={user.imageUrl} alt="" />
+                        </div>
+                        <div className="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
+                          <p className="text-sm font-medium text-gray-600">Welcome back,</p>
+                          <p className="text-xl font-bold text-gray-900 sm:text-2xl">{user.name}</p>
+                          <p className="text-sm font-medium text-gray-600">{user.role}</p>
+                        </div>
+                      </div>
+                      <div className="mt-5 flex justify-center sm:mt-0">
+                        <a
+                          href="#"
+                          className="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                        >
+                          View profile
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="border-t border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-2 sm:divide-y-0 sm:divide-x">
+                    {stats.map((stat) => (
+                      <div key={stat.label} className="px-6 py-5 text-sm font-medium text-center">
+                        <span className="text-gray-900">{stat.value}</span>{' '}
+                        <span className="text-gray-600">{stat.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              {/* Actions panel */}
+              <section aria-labelledby="quick-links-title">
+                <div className="rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
+                  <h2 className="sr-only" id="quick-links-title">
+                    Quick links
+                  </h2>
+                  {actions.map((action, actionIdx) => (
+                    <div
+                      key={action.name}
+                      className={classNames(
+                        actionIdx === 0 ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none' : '',
+                        actionIdx === 1 ? 'sm:rounded-tr-lg' : '',
+                        actionIdx === actions.length - 2 ? 'sm:rounded-bl-lg' : '',
+                        actionIdx === actions.length - 1 ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none' : '',
+                        'relative group bg-white p-6'
+                      )}
+                    >
+                      <div>
+                        <span
+                          className={classNames(
+                            action.iconBackground,
+                            action.iconForeground,
+                            'rounded-lg inline-flex p-3 ring-4 ring-white'
+                          )}
+                        >
+                          <action.icon className="h-6 w-6" aria-hidden="true" />
+                        </span>
+                      </div>
+                      <div className="mt-8">
+                        <h3 className="text-lg font-medium">
+                          <a onClick={action.onClick} className="focus:outline-none">
+                            {/* Extend touch target to entire panel */}
+                            <span className="absolute inset-0" aria-hidden="true" />
+                            {action.name}
+                          </a>
+                        </h3>
+                        <p className="mt-2 text-sm text-gray-500">
+                          Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at
+                          blanditiis et quo et molestiae.
+                        </p>
+                      </div>
+                      <span
+                        className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+                        aria-hidden="true"
+                      >
+                        <svg
+                          className="h-6 w-6"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                        </svg>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </div>
+
+            {/* Right column */}
+            <div className="grid grid-cols-1 gap-4">
+              {/* Announcements */}
+              <section aria-labelledby="announcements-title">
+                <div className="rounded-lg bg-white overflow-hidden shadow">
+                  <div className="p-6">
+                    <h2 className="text-base font-medium text-gray-900" id="announcements-title">
+                      Announcements
+                    </h2>
+                    <div className="flow-root mt-6">
+                      <ul role="list" className="-my-5 divide-y divide-gray-200">
+                        {announcements.map((announcement) => (
+                          <li key={announcement.id} className="py-5">
+                            <div className="relative focus-within:ring-2 focus-within:ring-cyan-500">
+                              <h3 className="text-sm font-semibold text-gray-800">
+                                <a href={announcement.href} className="hover:underline focus:outline-none">
+                                  {/* Extend touch target to entire panel */}
+                                  <span className="absolute inset-0" aria-hidden="true" />
+                                  {announcement.title}
+                                </a>
+                              </h3>
+                              <p className="mt-1 text-sm text-gray-600 line-clamp-2">{announcement.preview}</p>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="mt-6">
+                      <a
+                        href="#"
+                        className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                      >
+                        View all
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Recent Hires */}
+              <section aria-labelledby="recent-hires-title">
+                <div className="rounded-lg bg-white overflow-hidden shadow">
+                  <div className="p-6">
+                    <h2 className="text-base font-medium text-gray-900" id="recent-hires-title">
+                      Recent Hires
+                    </h2>
+                    <div className="flow-root mt-6">
+                      <ul role="list" className="-my-5 divide-y divide-gray-200">
+                        {recentHires.map((person) => (
+                          <li key={person.handle} className="py-4">
+                            <div className="flex items-center space-x-4">
+                              <div className="flex-shrink-0">
+                                <img className="h-8 w-8 rounded-full" src={person.imageUrl} alt="" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900 truncate">{person.name}</p>
+                                <p className="text-sm text-gray-500 truncate">{'@' + person.handle}</p>
+                              </div>
+                              <div>
+                                <a
+                                  href={person.href}
+                                  className="inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50"
+                                >
+                                  View
+                                </a>
+                              </div>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="mt-6">
+                      <a
+                        href="#"
+                        className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                      >
+                        View all
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  const Employees = () => {
+    useEffect(() => {
+
+    });
+
+    const people = [
+      {
+        name: 'Lindsay Walton',
+        title: 'Front-end Developer',
+        department: 'Optimization',
+        email: 'lindsay.walton@example.com',
+        role: 'Member',
+        image:
+          'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      },
+      {
+        name: 'Lindsay Walto',
+        title: 'Front-end Developer',
+        department: 'Optimization',
+        email: 'lindsay.walton@example.com',
+        role: 'Member',
+        image:
+          'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      },
+      {
+        name: 'Lindsay Walt',
+        title: 'Front-end Developer',
+        department: 'Optimization',
+        email: 'lindsay.walton@example.com',
+        role: 'Member',
+        image:
+          'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      },
+    ]
+
+    return (
+      <main className="-mt-24 pb-8">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+          <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="px-4 py-5 sm:p-10">
+
+              <div className="px-4 sm:px-6 lg:px-8">
+                <div className="sm:flex sm:items-center">
+                  <div className="sm:flex-auto">
+                    <h1 className="text-xl font-semibold text-gray-900">Employees</h1>
+                    <p className="mt-2 text-sm text-gray-700">
+                      A list of all the users in your account including their name, title, email and role.
+                    </p>
+                  </div>
+                  <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+                    >
+                      Add user
+                    </button>
+                  </div>
+                </div>
+                <div className="mt-8 flex flex-col">
+                  <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                      <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                        <table className="min-w-full divide-y divide-gray-300">
+                          <thead className="bg-gray-50">
+                            <tr>
+                              <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                Name
+                              </th>
+                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                Title
+                              </th>
+                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                Status
+                              </th>
+                              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                Role
+                              </th>
+                              <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                <span className="sr-only">Edit</span>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-200 bg-white">
+                            {people.map((person) => (
+                              <tr key={person.email}>
+                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                  <div className="flex items-center">
+                                    <div className="h-10 w-10 flex-shrink-0">
+                                      <img className="h-10 w-10 rounded-full" src={person.image} alt="" />
+                                    </div>
+                                    <div className="ml-4">
+                                      <div className="font-medium text-gray-900">{person.name}</div>
+                                      <div className="text-gray-500">{person.email}</div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                  <div className="text-gray-900">{person.title}</div>
+                                  <div className="text-gray-500">{person.department}</div>
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                  <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                                    Active
+                                  </span>
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.role}</td>
+                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                  <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                                    Edit<span className="sr-only">, {person.name}</span>
+                                  </a>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    )
+  }
+
   return (
     <>
       <div className="min-h-full">
@@ -341,16 +693,19 @@ const Dashboard = (props) => {
                 <div className="relative flex flex-wrap items-center justify-center lg:justify-between">
                   {/* Logo */}
                   <div className="absolute left-0 py-5 flex-shrink-0 lg:static">
-                    <a href="#">
-                      <span className="sr-only">Noderas</span>
-                      {/* https://tailwindui.com/img/logos/workflow-mark-cyan-200.svg */}
-                      <img
-                        className="h-6 w-auto sm:h-7"
-                        src="/noderas-white.png"
-                        alt="Noderas"
-                        fill="#000"
-                      />
-                    </a>
+                    <div className='flex' style={{ gap: 15, alignItems: 'center' }}>
+                      <a href="#">
+                        <span className="sr-only">Noderas</span>
+                        {/* https://tailwindui.com/img/logos/workflow-mark-cyan-200.svg */}
+                        <img
+                          className="h-6 w-auto sm:h-7"
+                          src="/noderas-white.png"
+                          alt="Noderas"
+                          fill="#000"
+                        />
+                      </a>
+                      <h2 className="text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">{company?.name}</h2>
+                    </div>
                   </div>
 
                   {/* Right section on desktop */}
@@ -404,22 +759,18 @@ const Dashboard = (props) => {
                       <div className="hidden lg:block lg:col-span-2">
                         <nav className="flex space-x-4">
                           {navigation.map((item) => (
-                            <a
-                              key={item.name}
-                              href={item.href}
-                              className={classNames(
+                            <Link href={"/" + item.link} key={item.name}>
+                              <a className={classNames(
                                 item.current ? 'text-white' : 'text-neutral-400',
                                 'text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10'
                               )}
-                              aria-current={item.current ? 'page' : undefined}
-                            >
-                              {item.name}
-                            </a>
+                                aria-current={item.current ? 'page' : undefined}>{item.name}</a>
+                            </Link>
                           ))}
+
                         </nav>
                       </div>
-                      <div className="px-12 lg:px-0">
-                        {/* Search */}
+                      {/* <div className="px-12 lg:px-0">
                         <div className="max-w-xs mx-auto w-full lg:max-w-md">
                           <label htmlFor="search" className="sr-only">
                             Search
@@ -437,7 +788,7 @@ const Dashboard = (props) => {
                             />
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
 
@@ -549,198 +900,12 @@ const Dashboard = (props) => {
             </>
           )}
         </Popover>
-        <main className="-mt-24 pb-8">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            <h1 className="sr-only">Profile</h1>
-            {/* Main 3 column grid */}
-            <div className="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-              {/* Left column */}
-              <div className="grid grid-cols-1 gap-4 lg:col-span-2">
-                {/* Welcome panel */}
-                <section aria-labelledby="profile-overview-title">
-                  <div className="rounded-lg bg-white overflow-hidden shadow">
-                    <h2 className="sr-only" id="profile-overview-title">
-                      Profile Overview
-                    </h2>
-                    <div className="bg-white p-6">
-                      <div className="sm:flex sm:items-center sm:justify-between">
-                        <div className="sm:flex sm:space-x-5">
-                          <div className="flex-shrink-0">
-                            <img className="mx-auto h-20 w-20 rounded-full" src={user.imageUrl} alt="" />
-                          </div>
-                          <div className="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
-                            <p className="text-sm font-medium text-gray-600">Welcome back,</p>
-                            <p className="text-xl font-bold text-gray-900 sm:text-2xl">{user.name}</p>
-                            <p className="text-sm font-medium text-gray-600">{user.role}</p>
-                          </div>
-                        </div>
-                        <div className="mt-5 flex justify-center sm:mt-0">
-                          <a
-                            href="#"
-                            className="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                          >
-                            View profile
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="border-t border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-2 sm:divide-y-0 sm:divide-x">
-                      {stats.map((stat) => (
-                        <div key={stat.label} className="px-6 py-5 text-sm font-medium text-center">
-                          <span className="text-gray-900">{stat.value}</span>{' '}
-                          <span className="text-gray-600">{stat.label}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </section>
-
-                {/* Actions panel */}
-                <section aria-labelledby="quick-links-title">
-                  <div className="rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
-                    <h2 className="sr-only" id="quick-links-title">
-                      Quick links
-                    </h2>
-                    {actions.map((action, actionIdx) => (
-                      <div
-                        key={action.name}
-                        className={classNames(
-                          actionIdx === 0 ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none' : '',
-                          actionIdx === 1 ? 'sm:rounded-tr-lg' : '',
-                          actionIdx === actions.length - 2 ? 'sm:rounded-bl-lg' : '',
-                          actionIdx === actions.length - 1 ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none' : '',
-                          'relative group bg-white p-6'
-                        )}
-                      >
-                        <div>
-                          <span
-                            className={classNames(
-                              action.iconBackground,
-                              action.iconForeground,
-                              'rounded-lg inline-flex p-3 ring-4 ring-white'
-                            )}
-                          >
-                            <action.icon className="h-6 w-6" aria-hidden="true" />
-                          </span>
-                        </div>
-                        <div className="mt-8">
-                          <h3 className="text-lg font-medium">
-                            <a onClick={action.onClick} className="focus:outline-none">
-                              {/* Extend touch target to entire panel */}
-                              <span className="absolute inset-0" aria-hidden="true" />
-                              {action.name}
-                            </a>
-                          </h3>
-                          <p className="mt-2 text-sm text-gray-500">
-                            Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at
-                            blanditiis et quo et molestiae.
-                          </p>
-                        </div>
-                        <span
-                          className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
-                          aria-hidden="true"
-                        >
-                          <svg
-                            className="h-6 w-6"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-                          </svg>
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              </div>
-
-              {/* Right column */}
-              <div className="grid grid-cols-1 gap-4">
-                {/* Announcements */}
-                <section aria-labelledby="announcements-title">
-                  <div className="rounded-lg bg-white overflow-hidden shadow">
-                    <div className="p-6">
-                      <h2 className="text-base font-medium text-gray-900" id="announcements-title">
-                        Announcements
-                      </h2>
-                      <div className="flow-root mt-6">
-                        <ul role="list" className="-my-5 divide-y divide-gray-200">
-                          {announcements.map((announcement) => (
-                            <li key={announcement.id} className="py-5">
-                              <div className="relative focus-within:ring-2 focus-within:ring-cyan-500">
-                                <h3 className="text-sm font-semibold text-gray-800">
-                                  <a href={announcement.href} className="hover:underline focus:outline-none">
-                                    {/* Extend touch target to entire panel */}
-                                    <span className="absolute inset-0" aria-hidden="true" />
-                                    {announcement.title}
-                                  </a>
-                                </h3>
-                                <p className="mt-1 text-sm text-gray-600 line-clamp-2">{announcement.preview}</p>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="mt-6">
-                        <a
-                          href="#"
-                          className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                        >
-                          View all
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                {/* Recent Hires */}
-                <section aria-labelledby="recent-hires-title">
-                  <div className="rounded-lg bg-white overflow-hidden shadow">
-                    <div className="p-6">
-                      <h2 className="text-base font-medium text-gray-900" id="recent-hires-title">
-                        Recent Hires
-                      </h2>
-                      <div className="flow-root mt-6">
-                        <ul role="list" className="-my-5 divide-y divide-gray-200">
-                          {recentHires.map((person) => (
-                            <li key={person.handle} className="py-4">
-                              <div className="flex items-center space-x-4">
-                                <div className="flex-shrink-0">
-                                  <img className="h-8 w-8 rounded-full" src={person.imageUrl} alt="" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-medium text-gray-900 truncate">{person.name}</p>
-                                  <p className="text-sm text-gray-500 truncate">{'@' + person.handle}</p>
-                                </div>
-                                <div>
-                                  <a
-                                    href={person.href}
-                                    className="inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50"
-                                  >
-                                    View
-                                  </a>
-                                </div>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="mt-6">
-                        <a
-                          href="#"
-                          className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                        >
-                          View all
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            </div>
-          </div>
-        </main>
+        {
+          {
+            'home': <Home />,
+            'employees': <Employees />
+          }[router?.query?.tab]
+        }
         <footer>
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
             <div className="border-t border-gray-200 py-8 text-sm text-gray-400 text-center sm:text-left">
@@ -750,7 +915,7 @@ const Dashboard = (props) => {
           </div>
         </footer>
       </div>
-      <InviteEmployee open={openInviteEmployee} setOpen={setOpenInviteEmployee}/>
+      <InviteEmployee open={openInviteEmployee} setOpen={setOpenInviteEmployee} company={company} />
     </>
   )
 }
@@ -766,7 +931,7 @@ const SetupCompany = (props) => {
   const [designation, setDesignation] = useState('');
   const [country, setCountry] = useState('');
 
-  const handleSubmit = async () => {
+  const submitForm = async () => {
     try {
       const { data, error } = await supabase
         .from('companies')
@@ -808,7 +973,7 @@ const SetupCompany = (props) => {
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed z-10 inset-0 overflow-y-auto" onSubmit={(e) => { e.preventDefault(); handleSubmit() }}>
+        <div className="fixed z-10 inset-0 overflow-y-auto" onSubmit={(e) => { e.preventDefault(); submitForm(); }}>
           <div className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
             <Transition.Child
               as={Fragment}
@@ -1000,7 +1165,7 @@ const InviteEmployee = (props) => {
         body: email
       });
       const data = await res.json();
-  
+
       if (!data) {
         return {
           notFound: true,
@@ -1009,7 +1174,7 @@ const InviteEmployee = (props) => {
         if (data.error) {
           alert(data.error.message);
         } else {
-          alert(data.user.id);
+          createProfile(data.user.id);
         }
       }
     } catch (error) {
@@ -1017,6 +1182,19 @@ const InviteEmployee = (props) => {
     }
 
     props.setOpen(false);
+  }
+
+  const createProfile = async (userID) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .insert([
+          { id: userID, first_name: firstName, last_name: lastName, company_id: props?.company?.id, access_level: 2, designation: designation }
+        ])
+      if (error) throw error;
+    } catch (error) {
+      alert(error.error_description || error.message);
+    }
   }
 
   return (
@@ -1034,7 +1212,7 @@ const InviteEmployee = (props) => {
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed z-10 inset-0 overflow-y-auto" onSubmit={(e) => {e.preventDefault(); submitForm();}}>
+        <div className="fixed z-10 inset-0 overflow-y-auto" onSubmit={(e) => { e.preventDefault(); submitForm(); }}>
           <div className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
             <Transition.Child
               as={Fragment}

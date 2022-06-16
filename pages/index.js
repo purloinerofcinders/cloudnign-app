@@ -231,13 +231,13 @@ const HeaderMessage = () => {
         <div className="flex flex-col space-y-10">
           <div className="text-center">
             <p className="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-              Cloud-based staff
+              Cloud-based leave
             </p>
             <p className="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
               management software.
             </p>
             <p className="max-w-xl mt-5 mx-auto text-xl text-gray-500">
-              An all-in-one cloud-based web application software. Try it for free now!
+              No more excel! We will take care of your leaves now.
             </p>
           </div>
           <div className='text-center'>
@@ -292,13 +292,12 @@ const Features = () => {
   return (
     <div className="relative bg-white py-16 sm:py-24 lg:py-32">
       <div className="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
-        <h2 className="text-base font-semibold uppercase tracking-wider text-indigo-600">Deploy faster</h2>
+        <h2 className="text-base font-semibold uppercase tracking-wider text-rose-400">Secure, efficient</h2>
         <p className="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          Everything you need to deploy your app
+          Your data is safe with us.
         </p>
         <p className="mx-auto mt-5 max-w-prose text-xl text-gray-500">
-          Phasellus lorem quam molestie id quisque diam aenean nulla in. Accumsan in quis quis nunc, ullamcorper
-          malesuada. Eleifend condimentum id viverra nulla.
+          Your data is safe with us.
         </p>
         <div className="mt-12">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -307,7 +306,7 @@ const Features = () => {
                 <div className="flow-root rounded-lg bg-gray-50 px-6 pb-8">
                   <div className="-mt-6">
                     <div>
-                      <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-3 shadow-lg">
+                      <span className="inline-flex items-center justify-center rounded-md bg-rose-400 p-3 shadow-lg">
                         <feature.icon className="h-6 w-6 text-white" aria-hidden="true" />
                       </span>
                     </div>
@@ -331,8 +330,13 @@ const Pricing = () => {
         title: 'Startup',
         price: 7,
         frequency: '/month',
-        description: 'The essentials to provide your best work for clients.',
-        features: ['5 products', 'Up to 1,000 subscribers', 'Basic analytics', '48-hour support response time'],
+        description: 'Suitable for companies starting to grow.',
+        features: [
+          'Up to 20 users', 
+          'Up to 1,000 subscribers', 
+          'Basic analytics', 
+          '48-hour support response time'
+        ],
         cta: 'Monthly billing',
         mostPopular: false,
       },
@@ -342,7 +346,7 @@ const Pricing = () => {
         frequency: '/month',
         description: 'A plan that scales with your rapidly growing business.',
         features: [
-          '25 products',
+          'Up to 150 users',
           'Up to 10,000 subscribers',
           'Advanced analytics',
           '24-hour support response time',
@@ -357,8 +361,7 @@ const Pricing = () => {
         frequency: '/month',
         description: 'Dedicated support and infrastructure for your company.',
         features: [
-          'Unlimited products',
-          'Unlimited subscribers',
+          'Unlimited users*',
           'Advanced analytics',
           '1-hour, dedicated support response time',
           'Marketing automations',
@@ -441,7 +444,7 @@ const CTA = () => {
           <div className="inline-flex rounded-md shadow">
             <a
               href="#"
-              className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+              className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-rose-400 hover:bg-rose-600"
             >
               Get Started
             </a>

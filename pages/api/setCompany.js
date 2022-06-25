@@ -24,16 +24,23 @@ const handler = async (req, res) => {
     try {
       const { data, error } = await service
         .from('companies')
-        .select()
-        .eq('id', body?.company_id)
-        .single();
+        .insert([
+          { company_name: companyName, about: companyAbout }
+        ])
+        
+      if (error) 
+        throw error;
+
+      let companyID = data[0].id;
 
       if (error) 
         throw error;
 
-      res.status(200).json({ company: data, error: null })
+      res.status(200).json({ user: user, error: null })
     } catch (error) {
       res.status(500).json({ error: error.message });
+
+      return;
     }
   }
 }

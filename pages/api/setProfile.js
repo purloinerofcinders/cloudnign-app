@@ -22,16 +22,21 @@ const handler = async (req, res) => {
     }
 
     try {
-      const { data, error } = await service
-        .from('companies')
-        .select()
-        .eq('id', body?.company_id)
-        .single();
+      const { error } = await service
+        .from('profiles')
+        .insert([{
+          id: body?.userID,
+          first_name: body?.first_name,
+          last_name: body?.last_name,
+          company_id: body?.company_id,
+          access_level: body?.access_level,
+          designation: body?.designation
+        }])
 
-      if (error) 
+      if (error)
         throw error;
 
-      res.status(200).json({ company: data, error: null })
+      res.status(200).json({ error: null });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

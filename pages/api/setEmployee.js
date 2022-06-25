@@ -22,18 +22,17 @@ const handler = async (req, res) => {
     }
 
     try {
-      const { data, error } = await service
-        .from('companies')
-        .select()
-        .eq('id', body?.company_id)
-        .single();
+      const { data: user, error } = await service.auth.api
+        .inviteUserByEmail(body?.email);
 
       if (error) 
         throw error;
 
-      res.status(200).json({ company: data, error: null })
+      res.status(200).json({ user: user, error: null })
     } catch (error) {
       res.status(500).json({ error: error.message });
+
+      return;
     }
   }
 }

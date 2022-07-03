@@ -64,21 +64,6 @@ const Dashboard = (props) => {
     }
   }
 
-  const signOut = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-
-      if (error) 
-        throw error
-
-      alert('Signed out.');
-    } catch (error) {
-      alert(error.error_description || error.message)
-    } finally {
-
-    }
-  };
-
   const user = {
     name: props.profile?.first_name + ' ' + props.profile?.last_name,
     email: 'chelsea.hagon@example.com',
@@ -99,7 +84,7 @@ const Dashboard = (props) => {
   const userNavigation = [
     { name: 'Your Profile', onClick: '#' },
     { name: 'Settings', onClick: '#' },
-    { name: 'Sign out', onClick: () => signOut() },
+    { name: 'Sign out', onClick: () => props.signOut() },
   ]
 
   useEffect(() => {
@@ -120,7 +105,7 @@ const Dashboard = (props) => {
   return (
     <>
       <div className="min-h-full">
-        <Popover as="header" className="pb-24 bg-neutral-800">
+        <Popover as="header" className="pb-24 bg-sky-400">
           {({ open }) => (
             <>
               <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -186,7 +171,7 @@ const Dashboard = (props) => {
                     </Menu>
                   </div>
 
-                  <div className="w-full py-5 lg:border-t lg:border-white lg:border-opacity-20">
+                  <div className="w-full py-5 lg:border-t lg:border-white lg:border-opacity-70">
                     <div className="lg:grid lg:grid-cols-3 lg:gap-8 lg:items-center">
                       {/* Left nav */}
                       <div className="hidden lg:block lg:col-span-2">
@@ -195,7 +180,7 @@ const Dashboard = (props) => {
                             <Link href={"/" + item.link} key={item.name} >
                               <a
                                 className={classNames(
-                                  item.current ? 'text-white' : 'text-neutral-400',
+                                  item.current ? 'text-white' : 'text-neutral-200',
                                   'text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10'
                                 )}
                                 aria-current={item.current ? 'page' : undefined}>{item.name}

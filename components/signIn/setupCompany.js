@@ -18,29 +18,68 @@ const SetupCompany = (props) => {
 
   const submitForm = async () => {
     try {
-      const { data, error } = await supabaseClient
-        .from('companies')
-        .insert([
-          { company_name: companyName, about: companyAbout }
-        ])
-      if (error) throw error;
+      const res = await fetch(`/api/postCompany`, {
+        method: 'POST',
+        body: JSON.stringify({
+          session: props?.session,
+          company_name: companyName,
+          company_about: companyAbout
+        })
+      });
 
-      let companyID = data[0].id;
+      const data = await res.json();
+      const companyID = data?.company_id;
 
-      try {
-        const { data, error } = await supabaseClient
-          .from('profiles')
-          .insert([
-            { id: props.session.user.id, first_name: firstName, last_name: lastName, company_id: companyID, access_level: 1, designation: designation }
-          ])
-        if (error) throw error;
-      } catch (error) {
-        alert(error.error_description || error.message);
+      if (data?.error) {
+        alert(data.error);
+      } else {
+        const res = await fetch(`/api/postProfile`, {
+          method: 'POST',
+          body: JSON.stringify({
+            session: props.session,
+            userID: props.session?.user?.id,
+            first_name: firstName,
+            last_name: lastName,
+            company_id: companyID,
+            access_level: 1,
+            designation: designation
+          })
+        });
+
+        const data = await res.json();
+
+        if (!data?.error) {
+          
+        }
       }
     } catch (error) {
-      alert(error.error_description || error.message);
+      alert(error);
     }
-    setOpen(false);
+
+    // try {
+    //   const { data, error } = await supabaseClient
+    //     .from('companies')
+    //     .insert([
+    //       { company_name: companyName, about: companyAbout }
+    //     ])
+    //   if (error) throw error;
+
+    //   let companyID = data[0].id;
+
+    //   try {
+    //     const { data, error } = await supabaseClient
+    //       .from('profiles')
+    //       .insert([
+    //         { id: props.session.user.id, first_name: firstName, last_name: lastName, company_id: companyID, access_level: 1, designation: designation }
+    //       ])
+    //     if (error) throw error;
+    //   } catch (error) {
+    //     alert(error.error_description || error.message);
+    //   }
+    // } catch (error) {
+    //   alert(error.error_description || error.message);
+    // }
+    // setOpen(false);
   }
 
   return (
@@ -103,9 +142,6 @@ const SetupCompany = (props) => {
                               Company Name <span className='text-rose-600'>*</span>
                             </label>
                             <div className="mt-1 flex rounded-md shadow-sm">
-                              {/* <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                                noderas.com/
-                              </span> */}
                               <input
                                 type="text"
                                 name="username"
@@ -113,7 +149,7 @@ const SetupCompany = (props) => {
                                 value={companyName}
                                 autoComplete="username"
                                 required
-                                className="flex-1 focus:ring-neutral-600 focus:border-neutral-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                className="flex-1 focus:ring-sky-200 focus:border-sky-400 block w-full min-w-0 rounded-md sm:text-sm border-gray-300 rounde"
                                 onChange={(e) => setCompanyName(e.target.value)}
                               />
                             </div>
@@ -128,7 +164,7 @@ const SetupCompany = (props) => {
                                 id="about"
                                 name="about"
                                 rows={3}
-                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                className="shadow-sm focus:ring-sky-200 focus:border-sky-400 block w-full sm:text-sm border border-gray-300 rounded-md"
                                 defaultValue={''}
                                 onChange={(e) => setCompanyAbout(e.target.value)}
                               />
@@ -155,7 +191,7 @@ const SetupCompany = (props) => {
                                 id="first-name"
                                 value={firstName}
                                 autoComplete="given-name"
-                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="shadow-sm focus:ring-sky-200 focus:border-sky-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                 required
                                 onChange={(e) => setFirstName(e.target.value)}
                               />
@@ -172,7 +208,7 @@ const SetupCompany = (props) => {
                                 name="last-name"
                                 id="last-name"
                                 autoComplete="family-name"
-                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="shadow-sm focus:ring-sky-200 focus:border-sky-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                 onChange={(e) => setLastName(e.target.value)}
                               />
                             </div>
@@ -188,7 +224,7 @@ const SetupCompany = (props) => {
                                 name="designation"
                                 type="text"
                                 autoComplete="designation"
-                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="shadow-sm focus:ring-sky-200 focus:border-sky-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                 onChange={(e) => setDesignation(e.target.value)}
                               />
                             </div>
@@ -203,7 +239,7 @@ const SetupCompany = (props) => {
                                 id="country"
                                 name="country"
                                 autoComplete="country-name"
-                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="shadow-sm focus:ring-sky-200 focus:border-sky-400 block w-full sm:text-sm border-gray-300 rounded-md"
                               >
                                 <option>Singapore</option>
                                 <option>Singapore</option>

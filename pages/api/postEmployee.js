@@ -9,7 +9,7 @@ const handler = async (req, res) => {
     const service = supabase?.service;
     const tokenData = supabase?.data;
 
-    const tokenExpireDate = new Date(tokenData.exp * 1000);
+    const tokenExpireDate = new Date(tokenData?.exp * 1000);
 
     if (supabase === null || profile?.id !== tokenData?.sub) {
       res.status(500).json({error: 'UNAUTHORIZED'});

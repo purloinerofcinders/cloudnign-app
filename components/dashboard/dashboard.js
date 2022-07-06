@@ -15,6 +15,7 @@ import {
 
 import Home from './tabs/home'
 import Employees from './tabs/employees'
+import Leave from './tabs/leave'
 
 const Dashboard = (props) => {
   const router = useRouter();
@@ -74,7 +75,7 @@ const Dashboard = (props) => {
 
   const navigation = [
     { name: 'Home', link: 'home', current: currentTab === 'home' },
-    { name: 'Leave', link: 'profile', current: currentTab === 'profile' },
+    { name: 'Leave', link: 'leave', current: currentTab === 'leave' },
     { name: 'Employees', link: 'employees', current: currentTab === 'employees' },
     { name: 'Company', link: 'company', current: currentTab === 'company' },
     { name: 'Access', link: 'access', current: currentTab === 'access' },
@@ -82,8 +83,8 @@ const Dashboard = (props) => {
   ]
 
   const userNavigation = [
-    { name: 'Your Profile', onClick: '#' },
-    { name: 'Settings', onClick: '#' },
+    { name: 'Profile', onClick: () => {} },
+    { name: 'Settings', onClick: () => {} },
     { name: 'Sign out', onClick: () => props.signOut() },
   ]
 
@@ -91,11 +92,11 @@ const Dashboard = (props) => {
     if (props.profile)
       getEmployees();
   }, [props.profile]);
-  
+
   useEffect(() => {
     const tab = router.query?.tab;
 
-    if (!['home', 'profile', 'employees', 'company', 'access', 'help'].includes(tab) && tab) {
+    if (!['home', 'leave', 'employees', 'company', 'access', 'help'].includes(tab) && tab) {
       router.push('/error/404');
     } else {
       setCurrentTab(tab);
@@ -105,7 +106,7 @@ const Dashboard = (props) => {
   return (
     <>
       <div className="min-h-full">
-        <Popover as="header" className="pb-24 bg-sky-400">
+        <Popover as="header" className="pb-24 bg-neutral-800">
           {({ open }) => (
             <>
               <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -171,7 +172,7 @@ const Dashboard = (props) => {
                     </Menu>
                   </div>
 
-                  <div className="w-full py-5 lg:border-t lg:border-white lg:border-opacity-70">
+                  <div className="w-full py-5 lg:border-t lg:border-neutral-400 lg:border-opacity-70">
                     <div className="lg:grid lg:grid-cols-3 lg:gap-8 lg:items-center">
                       {/* Left nav */}
                       <div className="hidden lg:block lg:col-span-2">
@@ -180,7 +181,7 @@ const Dashboard = (props) => {
                             <Link href={"/" + item.link} key={item.name} >
                               <a
                                 className={classNames(
-                                  item.current ? 'text-white' : 'text-neutral-200',
+                                  item.current ? 'text-white' : 'text-neutral-400',
                                   'text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10'
                                 )}
                                 aria-current={item.current ? 'page' : undefined}>{item.name}
@@ -215,7 +216,7 @@ const Dashboard = (props) => {
                   {/* Menu button */}
                   <div className="absolute right-0 flex-shrink-0 lg:hidden">
                     {/* Mobile menu button */}
-                    <Popover.Button className="bg-transparent p-2 rounded-md inline-flex items-center justify-center text-cyan-200 hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
+                    <Popover.Button className="bg-transparent p-2 rounded-md inline-flex items-center justify-center text-white hover:text-neutral-400 focus:outline-none">
                       <span className="sr-only">Open main menu</span>
                       {open ? (
                         <XIcon className="block h-6 w-6" aria-hidden="true" />
@@ -260,12 +261,12 @@ const Dashboard = (props) => {
                             <div>
                               <img
                                 className="h-8 w-auto"
-                                src="https://tailwindui.com/img/logos/workflow-mark-cyan-600.svg"
-                                alt="Workflow"
+                                src="/noderas-neutral-800.png"
+                                alt="Noderas"
                               />
                             </div>
                             <div className="-mr-2">
-                              <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500">
+                              <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none">
                                 <span className="sr-only">Close menu</span>
                                 <XIcon className="h-6 w-6" aria-hidden="true" />
                               </Popover.Button>
@@ -324,11 +325,14 @@ const Dashboard = (props) => {
           {
             'home':
               <Home
+                session={props.session}
                 profile={props.profile}
                 company={props.company}
                 openInviteEmployee={openInviteEmployee}
                 setOpenInviteEmployee={setOpenInviteEmployee}
               />,
+            'leave':
+              <Leave />,
             'employees':
               <Employees
                 profile={props.profile}

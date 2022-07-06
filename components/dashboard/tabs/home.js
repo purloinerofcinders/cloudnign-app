@@ -25,7 +25,7 @@ const Home = (props) => {
 
   const submitForm = async () => {
     try {
-      const res = await fetch(`/api/setEmployee`, {
+      const res = await fetch(`/api/postEmployee`, {
         method: 'POST',
         body: JSON.stringify({
           session: props?.session,
@@ -56,7 +56,7 @@ const Home = (props) => {
 
   const createProfile = async (userID) => {
     try {
-      const res = await fetch(`/api/setProfile`, {
+      const res = await fetch(`/api/postProfile`, {
         method: 'POST',
         body: JSON.stringify({ 
           session: props?.session,

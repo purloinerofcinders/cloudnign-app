@@ -1,8 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
 
-import { supabaseClient } from '../../lib/supabase'
-
 import { Fragment } from 'react'
 import { Transition, Dialog } from '@headlessui/react'
 

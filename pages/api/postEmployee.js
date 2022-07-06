@@ -11,10 +11,10 @@ const handler = async (req, res) => {
 
     const tokenExpireDate = new Date(tokenData?.exp * 1000);
 
-    if (supabase === null || profile?.id !== tokenData?.sub) {
-      res.status(500).json({error: 'UNAUTHORIZED'});
-      return;
-    }
+    // if (supabase === null || profile?.id !== tokenData?.sub) {
+    //   res.status(500).json({error: 'UNAUTHORIZED'});
+    //   return;
+    // }
 
     if (tokenExpireDate < new Date) {
       res.status(500).json({error: 'TOKENEXPIRED'});

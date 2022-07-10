@@ -51,14 +51,14 @@ const Employees = (props) => {
                     type="button"
                     className="inline-flex items-center justify-center rounded-md border border-transparent bg-neutral-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-neutral-500 focus:outline-none sm:w-auto"
                   >
-                    Add user
+                    Add Employee
                   </button>
                 </div>
               </div>
               <div className="mt-8 flex flex-col">
                 <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                   <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                    <div className="overflow-hidden ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                    <div className="overflow-hidden md:rounded-lg">
                       <table className="min-w-full divide-y divide-white">
                         <thead className="bg-neutral-100">
                           <tr>

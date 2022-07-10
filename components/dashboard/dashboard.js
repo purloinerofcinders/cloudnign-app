@@ -123,7 +123,9 @@ const Dashboard = (props) => {
                           fill="#000"
                         />
                       </a>
-                      <h2 className="text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">{props.company?.name}</h2>
+                      <h2 className="text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">
+                        {props.company?.name === undefined ? <div className="h-2 lg:w-30 w-20 bg-slate-200 rounded animate-pulse" /> : props.company?.name}
+                      </h2>
                     </div>
                   </div>
 

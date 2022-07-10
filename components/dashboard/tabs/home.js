@@ -221,8 +221,8 @@ const Home = (props) => {
                       </div> */}
                       <div className="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
                         <p className="text-sm font-medium text-gray-600">Welcome back,</p>
-                        <p className="text-xl font-bold text-gray-900 sm:text-2xl">{user.name}</p>
-                        <p className="text-sm font-medium text-gray-600">{user.role}</p>
+                        <p className="text-xl font-bold text-gray-900 sm:text-2xl">{props.profile?.first_name === undefined ? <span className='flex space-x-3'><span className="h-2 mb-2 w-28 bg-slate-200 rounded animate-pulse" /><span class="h-2 mb-2 w-10 bg-slate-200 rounded animate-pulse" /></span> : props.profile?.first_name + ' ' + props.profile?.last_name}</p>
+                        <p className="text-sm font-medium text-gray-600">{props.profile?.designation === undefined ? <span className="h-2 w-40 bg-slate-200 rounded animate-pulse" /> : props.profile?.designation}</p>
                       </div>
                     </div>
                     <div className="mt-5 flex justify-center sm:mt-0">
@@ -324,10 +324,15 @@ const Home = (props) => {
                               <a href={announcement.href} className="hover:underline focus:outline-none">
                                 {/* Extend touch target to entire panel */}
                                 <span className="absolute inset-0" aria-hidden="true" />
-                                {announcement.title}
+                                {/* {announcement.title} */}
+                                <div className="h-3 mb-2 w-28 bg-slate-200 rounded animate-pulse" />
                               </a>
                             </h3>
-                            <p className="mt-1 text-sm text-gray-600 line-clamp-2">{announcement.preview}</p>
+                            <p className="mt-1 text-sm text-gray-600 line-clamp-2">
+                              {/* {announcement.preview} */}
+                              <div className="h-2 mb-2 w-80 bg-slate-200 rounded animate-pulse" />
+                              <div className="h-2 mb-2 w-80 bg-slate-200 rounded animate-pulse" />
+                            </p>
                           </div>
                         </li>
                       ))}
@@ -357,21 +362,7 @@ const Home = (props) => {
                       {recentHires.map((person) => (
                         <li key={person.handle} className="py-4">
                           <div className="flex items-center space-x-4">
-                            <div className="flex-shrink-0">
-                              <img className="h-8 w-8 rounded-full" src={person.imageUrl} alt="" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-gray-900 truncate">{person.name}</p>
-                              <p className="text-sm text-gray-500 truncate">{'@' + person.handle}</p>
-                            </div>
-                            <div>
-                              <a
-                                href={person.href}
-                                className="inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50"
-                              >
-                                View
-                              </a>
-                            </div>
+                          <div className="h-2 mb-2 w-40 bg-slate-200 rounded animate-pulse" />
                           </div>
                         </li>
                       ))}

@@ -1,4 +1,4 @@
-import { supabaseService } from "../../lib/supabase";
+import { supabaseService } from "../../services/supabase";
 
 const handler = async (req, res) => {
   if (req.method === 'POST') {

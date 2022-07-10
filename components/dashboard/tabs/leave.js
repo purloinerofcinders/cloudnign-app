@@ -1,10 +1,14 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
-import { CheckCircleIcon, ChevronRightIcon } from '@heroicons/react/solid'
-import ApplyLeave from '../../applyLeave'
+import React from 'react';
+import { useEffect, useState } from 'react';
+import { CheckCircleIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import ApplyLeave from '../../applyLeave';
 
 const Leave = (props) => {
   const [openApplyLeave, setOpenApplyLeave] = useState(false);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [type, setType] = useState();
+  const [remarks, setRemarks] = useState();
 
   const stats = [
     { name: 'Annual Leave', stat: '14' },

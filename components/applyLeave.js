@@ -1,14 +1,26 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+import React from "react";
+import { useState, useEffect } from "react";
 
-import Head from 'next/head'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { Fragment } from 'react'
-import { Menu, Popover, Transition, Dialog } from '@headlessui/react'
+import Head from "next/head";
+import Image from "next/image";
+import { useRouter } from "next/router";
+
+import Link from "next/link";
+import { Fragment } from "react";
+import { Menu, Popover, Transition, Dialog } from "@headlessui/react";
+
+import DropBox from "./dropbox";
+
+const items = [
+  { id: 1, value: 'Annual' },
+  { id: 2, value: 'Medical' },
+  { id: 3, value: 'Urgent' },
+  { id: 4, value: 'Others'},
+]
 
 const ApplyLeave = (props) => {
+  const [selectedItem, setSelectedItem] = useState(items[0]);
+
   return (
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={props.setOpen}>
@@ -23,7 +35,13 @@ const ApplyLeave = (props) => {
         >
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
-        <div className="fixed z-10 inset-0 overflow-y-auto" onSubmit={(e) => { e.preventDefault(); props?.submitForm(); }}>
+        <div
+          className="fixed z-10 inset-0 overflow-y-auto"
+          onSubmit={(e) => {
+            e.preventDefault();
+            props?.submitForm();
+          }}
+        >
           <div className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
             <Transition.Child
               as={Fragment}
@@ -41,76 +59,77 @@ const ApplyLeave = (props) => {
                       <div className="space-y-8 divide-y divide-gray-200">
                         <div>
                           <div>
-                            <h3 className="text-lg leading-6 font-medium text-gray-900">Employee</h3>
+                            <h3 className="text-lg leading-6 font-medium text-gray-900">
+                              New Leave
+                            </h3>
                             <p className="mt-1 text-sm text-gray-500">
-                              We need your employee's details to begin.
+                              Fill us up with details of your leave application.
                             </p>
                           </div>
                           <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                             <div className="sm:col-span-3">
-                              <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">
-                                First name <span className='text-rose-600'>*</span>
+                              <label
+                                htmlFor="start-date"
+                                className="block text-sm font-medium text-gray-700"
+                              >
+                                Start Date{" "} <span className="text-rose-600">*</span>
                               </label>
                               <div className="mt-1">
                                 <input
-                                  type="text"
-                                  name="first-name"
-                                  id="first-name"
-                                  value={props.firstName}
-                                  autoComplete="given-name"
+                                  type="date"
+                                  name="start-date"
+                                  id="start-date"
+                                  value={Date}
                                   className="shadow-sm focus:ring-neutral-800 focus:border-neutral-800 block w-full sm:text-sm border-gray-300 rounded-md"
                                   required
-                                  onChange={(e) => props.setFirstName(e.target.value)}
+                                  onChange={(e) =>
+                                    props.setFirstName(e.target.value)
+                                  }
                                 />
                               </div>
                             </div>
 
                             <div className="sm:col-span-3">
-                              <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                                Last name
+                              <label
+                                htmlFor="end-date"
+                                className="block text-sm font-medium text-gray-700"
+                              >
+                                End Date{" "} <span className="text-rose-600">*</span>
                               </label>
                               <div className="mt-1">
                                 <input
-                                  type="text"
-                                  name="last-name"
-                                  id="last-name"
+                                  type="date"
+                                  name="end-date"
+                                  id="end-date"
                                   value={props.lastName}
-                                  autoComplete="family-name"
                                   className="shadow-sm focus:ring-neutral-800 focus:border-neutral-800 block w-full sm:text-sm border-gray-300 rounded-md"
-                                  onChange={(e) => props.setLastName(e.target.value)}
+                                  required
+                                  onChange={(e) =>
+                                    props.setLastName(e.target.value)
+                                  }
                                 />
                               </div>
                             </div>
-
                             <div className="sm:col-span-4">
-                              <label htmlFor="designation" className="block text-sm font-medium text-gray-700">
-                                Designation
-                              </label>
-                              <div className="mt-1">
-                                <input
-                                  id="designation"
-                                  name="designation"
-                                  type="text"
-                                  value={props.designation}
-                                  autoComplete="designation"
-                                  className="shadow-sm focus:ring-neutral-800 focus:border-neutral-800 block w-full sm:text-sm border-gray-300 rounded-md"
-                                  onChange={(e) => props.setDesignation(e.target.value)}
-                                />
-                              </div>
+                              <DropBox title="Type" required items={items} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
                             </div>
                             <div className="sm:col-span-5">
-                              <label htmlFor="designation" className="block text-sm font-medium text-gray-700">
-                                Email Address <span className='text-rose-600'>*</span>
+                              <label
+                                htmlFor="Remarks"
+                                className="block text-sm font-medium text-gray-700"
+                              >
+                                Remarks
                               </label>
                               <div className="mt-1">
                                 <input
-                                  id="email"
-                                  name="email"
-                                  type="email"
+                                  id="Remarks"
+                                  name="Remarks"
+                                  type="text"
                                   value={props.email}
-                                  autoComplete="email"
                                   className="shadow-sm focus:ring-neutral-800 focus:border-neutral-800 block w-full sm:text-sm border-gray-300 rounded-md"
-                                  onChange={(e) => props.setEmail(e.target.value)}
+                                  onChange={(e) =>
+                                    props.setEmail(e.target.value)
+                                  }
                                   required
                                 />
                               </div>
@@ -145,7 +164,6 @@ const ApplyLeave = (props) => {
       </Dialog>
     </Transition.Root>
   );
-}
+};
 
 export default ApplyLeave;
-

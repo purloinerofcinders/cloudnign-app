@@ -58,16 +58,16 @@ const Home = (props) => {
     try {
       const res = await fetch(`/api/postProfile`, {
         method: 'POST',
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           session: props?.session,
           profile: props?.profile,
-          userID: userID, 
-          first_name: firstName, 
-          last_name: lastName, 
-          company_id: props?.company?.id, 
-          access_level: 2, 
-          designation: designation 
-        }) 
+          userID: userID,
+          first_name: firstName,
+          last_name: lastName,
+          company_id: props?.company?.id,
+          access_level: 2,
+          designation: designation
+        })
       });
 
       const data = await res.json();
@@ -221,7 +221,7 @@ const Home = (props) => {
                       </div> */}
                       <div className="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
                         <p className="text-sm font-medium text-gray-600">Welcome back,</p>
-                        <p className="text-xl font-bold text-gray-900 sm:text-2xl">{props.profile?.first_name === undefined ? <span className='flex space-x-3'><span className="h-2 mb-2 w-28 bg-slate-200 rounded animate-pulse" /><span class="h-2 mb-2 w-10 bg-slate-200 rounded animate-pulse" /></span> : props.profile?.first_name + ' ' + props.profile?.last_name}</p>
+                        <p className="text-xl font-bold text-gray-900 sm:text-2xl">{props.profile?.first_name === undefined ? <span className='flex space-x-3'><span className="h-2 mb-2 w-28 bg-slate-200 rounded animate-pulse" /><span className="h-2 mb-2 w-10 bg-slate-200 rounded animate-pulse" /></span> : props.profile?.first_name + ' ' + props.profile?.last_name}</p>
                         <p className="text-sm font-medium text-gray-600">{props.profile?.designation === undefined ? <span className="h-2 w-40 bg-slate-200 rounded animate-pulse" /> : props.profile?.designation}</p>
                       </div>
                     </div>
@@ -328,11 +328,11 @@ const Home = (props) => {
                                 <div className="h-3 mb-2 w-28 bg-slate-200 rounded animate-pulse" />
                               </a>
                             </h3>
-                            <p className="mt-1 text-sm text-gray-600 line-clamp-2">
+                            <div className="mt-1 text-sm text-gray-600 line-clamp-2">
                               {/* {announcement.preview} */}
                               <div className="h-2 mb-2 w-80 bg-slate-200 rounded animate-pulse" />
                               <div className="h-2 mb-2 w-80 bg-slate-200 rounded animate-pulse" />
-                            </p>
+                            </div>
                           </div>
                         </li>
                       ))}
@@ -362,7 +362,7 @@ const Home = (props) => {
                       {recentHires.map((person) => (
                         <li key={person.handle} className="py-4">
                           <div className="flex items-center space-x-4">
-                          <div className="h-2 mb-2 w-40 bg-slate-200 rounded animate-pulse" />
+                            <span className="h-2 mb-2 w-40 bg-slate-200 rounded animate-pulse" />
                           </div>
                         </li>
                       ))}
@@ -382,10 +382,10 @@ const Home = (props) => {
           </div>
         </div>
       </div>
-      <InviteEmployee 
-        open={props.openInviteEmployee} 
-        setOpen={props.setOpenInviteEmployee} 
-        company={props.company} 
+      <InviteEmployee
+        open={props.openInviteEmployee}
+        setOpen={props.setOpenInviteEmployee}
+        company={props.company}
         firstName={firstName}
         lastName={lastName}
         designation={designation}
@@ -395,7 +395,7 @@ const Home = (props) => {
         setDesignation={setDesignation}
         setEmail={setEmail}
         submitForm={submitForm}
-        />
+      />
     </main>
   );
 }

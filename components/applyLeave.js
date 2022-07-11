@@ -11,16 +11,7 @@ import { Menu, Popover, Transition, Dialog } from "@headlessui/react";
 
 import DropBox from "./dropbox";
 
-const items = [
-  { id: 1, value: 'Annual' },
-  { id: 2, value: 'Medical' },
-  { id: 3, value: 'Urgent' },
-  { id: 4, value: 'Others'},
-]
-
 const ApplyLeave = (props) => {
-  const [selectedItem, setSelectedItem] = useState(items[0]);
-
   return (
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={props.setOpen}>
@@ -39,7 +30,7 @@ const ApplyLeave = (props) => {
           className="fixed z-10 inset-0 overflow-y-auto"
           onSubmit={(e) => {
             e.preventDefault();
-            props?.submitForm();
+            props?.submit();
           }}
         >
           <div className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
@@ -79,11 +70,11 @@ const ApplyLeave = (props) => {
                                   type="date"
                                   name="start-date"
                                   id="start-date"
-                                  value={Date}
+                                  value={props.startDate}
                                   className="shadow-sm focus:ring-neutral-800 focus:border-neutral-800 block w-full sm:text-sm border-gray-300 rounded-md"
                                   required
                                   onChange={(e) =>
-                                    props.setFirstName(e.target.value)
+                                    props.setStartDate(e.target.value)
                                   }
                                 />
                               </div>
@@ -101,17 +92,17 @@ const ApplyLeave = (props) => {
                                   type="date"
                                   name="end-date"
                                   id="end-date"
-                                  value={props.lastName}
+                                  value={props.endDate}
                                   className="shadow-sm focus:ring-neutral-800 focus:border-neutral-800 block w-full sm:text-sm border-gray-300 rounded-md"
                                   required
                                   onChange={(e) =>
-                                    props.setLastName(e.target.value)
+                                    props.setEndDate(e.target.value)
                                   }
                                 />
                               </div>
                             </div>
                             <div className="sm:col-span-4">
-                              <DropBox title="Type" required items={items} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
+                              <DropBox title="Type" required items={props.items} selectedItem={props.type} setSelectedItem={props.setType} />
                             </div>
                             <div className="sm:col-span-5">
                               <label
@@ -125,12 +116,11 @@ const ApplyLeave = (props) => {
                                   id="Remarks"
                                   name="Remarks"
                                   type="text"
-                                  value={props.email}
+                                  value={props.remarks}
                                   className="shadow-sm focus:ring-neutral-800 focus:border-neutral-800 block w-full sm:text-sm border-gray-300 rounded-md"
                                   onChange={(e) =>
-                                    props.setEmail(e.target.value)
+                                    props.setRemarks(e.target.value)
                                   }
-                                  required
                                 />
                               </div>
                             </div>

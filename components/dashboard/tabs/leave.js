@@ -3,18 +3,25 @@ import { useEffect, useState } from 'react';
 import { CheckCircleIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import ApplyLeave from '../../applyLeave';
 
+const items = [
+  { id: 1, value: 'Annual' },
+  { id: 2, value: 'Medical' },
+  { id: 3, value: 'Urgent' },
+  { id: 4, value: 'Others'},
+]
+
+const stats = [
+  { name: 'Annual Leave', stat: '14' },
+  { name: 'Medical Leave', stat: '3' },
+  { name: 'Others (Click to expand)', stat: '80' },
+]
+
 const Leave = (props) => {
   const [openApplyLeave, setOpenApplyLeave] = useState(false);
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [type, setType] = useState();
-  const [remarks, setRemarks] = useState();
-
-  const stats = [
-    { name: 'Annual Leave', stat: '14' },
-    { name: 'Medical Leave', stat: '3' },
-    { name: 'Others (Click to expand)', stat: '80' },
-  ]
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [type, setType] = useState(items[0]);
+  const [remarks, setRemarks] = useState("");
 
   const applications = [
     {
@@ -54,6 +61,13 @@ const Leave = (props) => {
       href: '#',
     },
   ]
+
+  const submit = () => {
+    console.log(startDate);
+    console.log(endDate);
+    console.log(type);
+    console.log(remarks);
+  }
 
   return (
     <main className="-mt-24 pb-8">
@@ -128,7 +142,20 @@ const Leave = (props) => {
           </div>
         </div>
       </div>
-      <ApplyLeave open= {openApplyLeave} setOpen={setOpenApplyLeave}/>
+      <ApplyLeave
+        open={openApplyLeave}
+        setOpen={setOpenApplyLeave}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        type={type}
+        items={items}
+        setType={setType}
+        remarks={remarks}
+        setRemarks={setRemarks}
+        submit={submit}
+      />
     </main>
   )
 }

@@ -1,19 +1,20 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
-import { CheckCircleIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import {useEffect, useState} from 'react';
+import {CheckCircleIcon, ChevronRightIcon, ClockIcon, XCircleIcon, MinusCircleIcon} from '@heroicons/react/solid';
 import ApplyLeave from '../../applyLeave';
+import {DateTime} from 'luxon';
 
 const items = [
-  { id: 1, value: 'Annual' },
-  { id: 2, value: 'Medical' },
-  { id: 3, value: 'Urgent' },
-  { id: 4, value: 'Others'},
+  {id: 1, value: 'Annual'},
+  {id: 2, value: 'Medical'},
+  {id: 3, value: 'Urgent'},
+  {id: 4, value: 'Others'},
 ]
 
 const stats = [
-  { name: 'Annual Leave', stat: '14' },
-  { name: 'Medical Leave', stat: '3' },
-  { name: 'Others (Click to expand)', stat: '80' },
+  {name: 'Annual Leave', stat: '14'},
+  {name: 'Medical Leave', stat: '3'},
+  {name: 'Others (Click to expand)', stat: '80'},
 ]
 
 const Leave = (props) => {
@@ -23,50 +24,30 @@ const Leave = (props) => {
   const [type, setType] = useState(items[0]);
   const [remarks, setRemarks] = useState("");
 
-  const applications = [
-    {
-      applicant: {
-        name: 'Ricardo Cooper',
-        email: 'ricardo.cooper@example.com',
-        imageUrl:
-          'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      date: '2020-01-07',
-      dateFull: 'January 7, 2020',
-      stage: 'Approved',
-      href: '#',
-    },
-    {
-      applicant: {
-        name: 'Kristen Ramos',
-        email: 'kristen.ramos@example.com',
-        imageUrl:
-          'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      date: '2020-01-07',
-      dateFull: 'January 7, 2020',
-      stage: 'Pending',
-      href: '#',
-    },
-    {
-      applicant: {
-        name: 'Ted Fox',
-        email: 'ted.fox@example.com',
-        imageUrl:
-          'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      date: '2020-01-07',
-      dateFull: 'January 7, 2020',
-      stage: 'Rejected',
-      href: '#',
-    },
-  ]
+  const submit = async () => {
+    try {
+      const res = await fetch(`/api/postLeave`, {
+        method: 'POST',
+        body: JSON.stringify({
+          session: props.session,
+          applicant: props.profile?.id,
+          start_date: startDate,
+          end_date: endDate,
+          type: type.id,
+          remarks: remarks
+        })
+      });
 
-  const submit = () => {
-    console.log(startDate);
-    console.log(endDate);
-    console.log(type);
-    console.log(remarks);
+      const data = await res.json();
+
+      if (data?.error) {
+        alert(data.error);
+      } else {
+
+      }
+    } catch (error) {
+      alert(error);
+    }
   }
 
   return (
@@ -104,38 +85,76 @@ const Leave = (props) => {
               </div>
               <div className="bg-white mt-5 overflow-hidden sm:rounded-md">
                 <ul role="list" className="divide-y divide-gray-200">
-                  {applications.map((application) => (
-                    <li key={application.applicant.email}>
-                      <a href={application.href} className="block hover:bg-gray-50">
-                        <div className="flex items-center px-4 py-4 sm:px-6">
-                          <div className="min-w-0 flex-1 flex items-center">
-                            <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
-                              <div>
-                                <p className="text-sm font-medium text-neutral-800 truncate">Friday, 14/5/2022 - Monday, 16/5/2022</p>
-                                <p className="mt-2 text-sm text-gray-500">
-                                  <span className="truncate">Type: Annual Leave, Reason: Rest</span>
-                                </p>
-                              </div>
-                              <div className=" md:block">
+                  {props?.leaves.length === 0 ?
+                    <p className='text-center text-md font-semibold text-neutral-800'>Oops! We did not find anything.</p>
+                    :
+                    props.leaves?.map((leave) => (
+                      <li key={leave.applicant}>
+                        <a href={leave?.href} className="block hover:bg-gray-50">
+                          <div className="flex items-center px-4 py-4 sm:px-6">
+                            <div className="min-w-0 flex-1 flex items-center">
+                              <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                 <div>
-                                  <p className="text-sm text-gray-900">
-                                    Applied on <time dateTime={application.date}>{application.dateFull}</time>
+                                  <div className="flex space-x-5">
+                                    <p className="text-sm font-medium text-neutral-800 truncate">
+                                      Starts <span className="font-semibold text-sky-600">{DateTime.fromISO(leave.start_date).toLocaleString()}</span>
+                                    </p>
+                                    <p className="text-sm font-medium text-neutral-800 truncate">
+                                      Ends <span className="font-semibold text-sky-600">{DateTime.fromISO(leave.end_date).toLocaleString()}</span>
+                                    </p>
+                                  </div>
+                                  <div className="flex space-x-5">
+                                    
+                                  
+                                  <p className="mt-2 text-sm text-gray-500">
+                                    <span className="truncate">Type:&nbsp;
+                                      <span className="font-semibold">
+                                        {
+                                          {
+                                            1: 'Annual',
+                                            2: 'Medical',
+                                            3: 'Urgent',
+                                            4: 'Others'
+                                          }[leave.type]
+                                        }
+                                      </span>
+                                    </span>
                                   </p>
-                                  <p className="mt-2 flex items-center text-sm text-gray-500">
-                                    <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" />
-                                    {application.stage}
+                                  <p className="mt-2 text-sm text-gray-500">
+                                    Remarks: <span className="font-semibold">{leave.remarks}</span>
                                   </p>
+                                  </div>
+                                </div>
+                                <div className=" md:block">
+                                  <div>
+                                    <p className="text-sm text-gray-900">
+                                      Applied on <span className="font-semibold text-sky-600">{DateTime.fromISO(leave.created_at).toLocaleString(DateTime.DATETIME_FULL)}</span>
+                                    </p>
+                                    <p className="mt-2 flex items-center text-sm text-gray-500">
+                                      {
+                                        {
+                                          1:
+                                            <span className='flex'><ClockIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-amber-400" aria-hidden="true"/>Pending</span>,
+                                          2:
+                                            <span className='flex'><CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" aria-hidden="true"/>Approved</span>,
+                                          3:
+                                            <span className='flex'><XCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-rose-400" aria-hidden="true"/>Denied</span>,
+                                          4:
+                                            <span className='flex'><MinusCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-neutral-400" aria-hidden="true"/>Cancelled</span>,
+                                        }[leave.status]
+                                      }
+                                    </p>
+                                  </div>
                                 </div>
                               </div>
                             </div>
+                            <div>
+                              <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true"/>
+                            </div>
                           </div>
-                          <div>
-                            <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                  ))}
+                        </a>
+                      </li>
+                    ))}
                 </ul>
               </div>
             </div>

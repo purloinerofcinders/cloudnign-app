@@ -26,11 +26,34 @@ const Dashboard = (props) => {
 
   const [employees, setEmployees] = useState([]);
 
-  const supabase = supabaseClient();
+  const [leaves, setLeaves] = useState([]);
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
+
+  const user = {
+    name: props.profile?.first_name + ' ' + props.profile?.last_name,
+    email: 'chelsea.hagon@example.com',
+    role: props.profile?.designation,
+    imageUrl:
+      'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  }
+
+  const navigation = [
+    { name: 'Home', link: 'home', current: currentTab === 'home' },
+    { name: 'Leave', link: 'leave', current: currentTab === 'leave' },
+    { name: 'Employees', link: 'employees', current: currentTab === 'employees' },
+    { name: 'Company', link: 'company', current: currentTab === 'company' },
+    { name: 'Access', link: 'access', current: currentTab === 'access' },
+    { name: 'Help', link: 'help', current: currentTab === 'help' },
+  ]
+
+  const userNavigation = [
+    { name: 'Profile', onClick: () => { } },
+    { name: 'Settings', onClick: () => { } },
+    { name: 'Sign out', onClick: () => props.signOut() },
+  ]
 
   const getEmployees = async () => {
     try {
@@ -65,32 +88,33 @@ const Dashboard = (props) => {
     }
   }
 
-  const user = {
-    name: props.profile?.first_name + ' ' + props.profile?.last_name,
-    email: 'chelsea.hagon@example.com',
-    role: props.profile?.designation,
-    imageUrl:
-      'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  const getLeaves = async () => {
+    try {
+      const res = await fetch(`/api/getLeaves`, {
+        method: 'POST',
+        body: JSON.stringify({
+          session: props.session,
+          profile: props.profile
+        })
+      });
+
+      const data = await res.json();
+
+      if (data?.error) {
+        alert(data.error);
+      } else {
+        setLeaves(data.leaves);
+      }
+    } catch (error) {
+      alert(error);
+    }
   }
 
-  const navigation = [
-    { name: 'Home', link: 'home', current: currentTab === 'home' },
-    { name: 'Leave', link: 'leave', current: currentTab === 'leave' },
-    { name: 'Employees', link: 'employees', current: currentTab === 'employees' },
-    { name: 'Company', link: 'company', current: currentTab === 'company' },
-    { name: 'Access', link: 'access', current: currentTab === 'access' },
-    { name: 'Help', link: 'help', current: currentTab === 'help' },
-  ]
-
-  const userNavigation = [
-    { name: 'Profile', onClick: () => {} },
-    { name: 'Settings', onClick: () => {} },
-    { name: 'Sign out', onClick: () => props.signOut() },
-  ]
-
   useEffect(() => {
-    if (props.profile)
+    if (props.profile) {
       getEmployees();
+      getLeaves();
+    }
   }, [props.profile]);
 
   useEffect(() => {
@@ -334,7 +358,11 @@ const Dashboard = (props) => {
                 setOpenInviteEmployee={setOpenInviteEmployee}
               />,
             'leave':
-              <Leave />,
+              <Leave
+                session={props.session}
+                profile={props.profile}
+                leaves={leaves}
+              />,
             'employees':
               <Employees
                 profile={props.profile}

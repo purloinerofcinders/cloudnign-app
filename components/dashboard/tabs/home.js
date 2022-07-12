@@ -103,41 +103,47 @@ const Home = (props) => {
     {
       icon: ClockIcon,
       name: 'Apply Leave',
+      description: 'Apply for annual, medical or urgent leave.',
       href: '#',
-      iconForeground: 'text-teal-700',
-      iconBackground: 'bg-teal-50',
+      iconForeground: 'text-emerald-700',
+      iconBackground: 'bg-emerald-50',
     },
     {
       icon: BadgeCheckIcon,
       name: 'Make Announcement',
+      description: 'Make an announcement to the entire company.',
       href: '#',
-      iconForeground: 'text-purple-700',
-      iconBackground: 'bg-purple-50',
+      iconForeground: 'text-violet-700',
+      iconBackground: 'bg-violet-50',
     },
     {
       icon: UsersIcon,
       name: 'Invite Employee',
+      description: 'Send an email invite to a new company.',
       onClick: () => props.setOpenInviteEmployee(true),
       iconForeground: 'text-sky-700',
       iconBackground: 'bg-sky-50',
     },
     {
       icon: CashIcon,
-      name: 'a',
+      name: 'Some Action',
+      description: 'Some Description',
       href: '#',
       iconForeground: 'text-yellow-700',
       iconBackground: 'bg-yellow-50'
     },
     {
       icon: ReceiptRefundIcon,
-      name: 'b',
+      name: 'Some Action',
+      description: 'Some Description',
       href: '#',
       iconForeground: 'text-rose-700',
       iconBackground: 'bg-rose-50',
     },
     {
       icon: AcademicCapIcon,
-      name: 'c',
+      name: 'Some Action',
+      description: 'Some Description',
       href: '#',
       iconForeground: 'text-indigo-700',
       iconBackground: 'bg-indigo-50',
@@ -283,8 +289,7 @@ const Home = (props) => {
                         </a>
                       </h3>
                       <p className="mt-2 text-sm text-gray-500">
-                        Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at
-                        blanditiis et quo et molestiae.
+                        {action.description}
                       </p>
                     </div>
                     <span

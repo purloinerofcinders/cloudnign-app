@@ -7,97 +7,98 @@ import {useRouter} from 'next/router';
 
 import Message from '../components/message';
 import Alert from "../components/alert";
+import {Transition} from "@headlessui/react";
 
 const Form = (props) => {
   return (
-    <div className="flex h-screen">
-      <div className="m-auto min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img
-            className="mx-auto h-12 w-auto"
-            src="/noderas-neutral-800.png"
-            alt="Noderas"
-          />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in / Sign up</h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Enter your email and we will do the rest! No password is required.
-          </p>
-        </div>
+    <div>
+      <div className="flex h-screen">
+        <div className="m-auto min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+          <div className="sm:mx-auto sm:w-full sm:max-w-md">
+            <img
+              className="mx-auto h-12 w-auto"
+              src="/noderas-neutral-800.png"
+              alt="Noderas"
+            />
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in / Sign up</h2>
+            <p className="mt-2 text-center text-sm text-gray-600">
+              Enter your email and we will do the rest! No password is required.
+            </p>
+          </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow-2xl sm:rounded-lg sm:px-10">
-            <form className="space-y-6" onSubmit={(e) => {
-              e.preventDefault();
-              props.signIn(props.email);
-            }}>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email address
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={props.email}
-                    onChange={(e) => props.setEmail(e.target.value)}
-                    autoComplete="email"
-                    required
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-neutral-800 focus:border-neutral-800 sm:text-sm"
-                  />
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 text-neutral-800 focus:ring-neutral-800 border-gray-300 rounded"
-                  />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                    Remember Email
+          <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="bg-white py-8 px-4 shadow-2xl sm:rounded-lg sm:px-10">
+              <form className="space-y-6" onSubmit={(e) => {
+                e.preventDefault();
+                props.signIn(props.email);
+              }}>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                    Email address
                   </label>
+                  <div className="mt-1">
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={props.email}
+                      onChange={(e) => props.setEmail(e.target.value)}
+                      autoComplete="email"
+                      required
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-neutral-800 focus:border-neutral-800 sm:text-sm"
+                    />
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  <input
-                    id="stay-signed-in"
-                    name="stay-signed-in"
-                    type="checkbox"
-                    className="h-4 w-4 text-neutral-800 focus:ring-neutral-800 border-gray-300 rounded"
-                  />
-                  <label htmlFor="stay-signed-in" className="ml-2 block text-sm text-gray-900">
-                    Stay Signed-in
-                  </label>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <input
+                      id="remember-me"
+                      name="remember-me"
+                      type="checkbox"
+                      className="h-4 w-4 text-neutral-800 focus:ring-neutral-800 border-gray-300 rounded"
+                    />
+                    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                      Remember Email
+                    </label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      id="stay-signed-in"
+                      name="stay-signed-in"
+                      type="checkbox"
+                      className="h-4 w-4 text-neutral-800 focus:ring-neutral-800 border-gray-300 rounded"
+                    />
+                    <label htmlFor="stay-signed-in" className="ml-2 block text-sm text-gray-900">
+                      Stay Signed-in
+                    </label>
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <button
-                  disabled={props.loading}
-                  type="submit"
-                  className="disabled:opacity-75 disabled:hover:bg-neutral-800 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-neutral-800 hover:bg-neutral-600"
-                >
-                  {props.loading ?
-                    <svg role="status"
-                      className="inline w-6 h-6 mr-2 text-gray-300 animate-spin dark:text-gray-600 fill-white"
-                      viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                        fill="currentColor"/>
-                      <path
-                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                        fill="currentFill"/>
-                    </svg>
-                    :
-                    <p>Continue</p>
-                  }
+                <div>
+                  <button
+                    disabled={props.loading}
+                    type="submit"
+                    className="disabled:opacity-75 disabled:hover:bg-neutral-800 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-neutral-800 hover:bg-neutral-600"
+                  >
+                    {props.loading ?
+                      <svg role="status"
+                        className="inline w-6 h-6 mr-2 text-gray-300 animate-spin dark:text-gray-600 fill-white"
+                        viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                          fill="currentColor"/>
+                        <path
+                          d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                          fill="currentFill"/>
+                      </svg>
+                      :
+                      <p>Continue</p>
+                    }
+                  </button>
+                </div>
+              </form>
 
-                </button>
-              </div>
-            </form>
-
-            {/* <div className="mt-6">
+              {/* <div className="mt-6">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-300" />
@@ -153,10 +154,27 @@ const Form = (props) => {
                 </div>
               </div>
             </div> */}
+            </div>
           </div>
         </div>
-        <Message open={props.openMessage} setOpen={props.setOpenMessage} message={props.message}/>
-        <Alert title="Hello" message="Welcome to noderas."></Alert>
+      </div>
+      <div className="absolute bottom-10 w-full justify-center flex grid space-y-2">
+        <Transition show={props.showAlert}
+          enter="transition ease-in-out duration-300 transform"
+          enterFrom="-translate-y-5 opacity-0"
+          enterTo="translate-y-0 opacity-100"
+          leave="transition ease-in-out duration-300 transform"
+          leaveFrom="translate-y-0 opacity-100"
+          leaveTo="translate-y-5 opacity-0"
+        >
+          <div className="max-w-max">
+            <Alert state={props.alert.state} title={props.alert.title} message={props.alert.message} 
+              action={() => {
+                props.setShowAlert(false);
+              }}
+            ></Alert>
+          </div>
+        </Transition>
       </div>
     </div>
   )
@@ -191,10 +209,10 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
 
   const [session, setSession] = useState(null);
-
-  const [openMessage, setOpenMessage] = useState(false);
-  const [message, setMessage] = useState({state: '', title: '', message: ''});
-
+  
+  const [showAlert, setShowAlert] = useState(false);
+  const [alert, setAlert] = useState({state: '', title: '', message: ''})
+  
   const supabase = supabaseClient();
 
   const router = useRouter();
@@ -202,6 +220,13 @@ const SignIn = () => {
   const hostName = process.env.NEXT_PUBLIC_HOSTNAME;
   const redirectTo = hostName + 'signin';
 
+  const useTimeout = () => {
+    const timeout = setTimeout(() => {
+      setShowAlert(false);
+      clearTimeout(timeout);
+    }, 2000);
+  }
+  
   const signIn = async (email) => {
     setLoading(true);
 
@@ -212,13 +237,16 @@ const SignIn = () => {
 
       if (error)
         throw error;
-
-      setMessage({state: 'success', title: 'Email Sent!', message: 'Check your email for the login link.'});
-      setOpenMessage(true);
+      
+      setAlert({state: 'success', title: 'Success', message: 'Email sent! Check your inbox for the login link.'});
+      setShowAlert(true);
+      useTimeout();
+      
       setWaiting(true);
     } catch (error) {
-      setMessage({state: 'error', title: 'Error!', message: error.message || error.error_description});
-      setOpenMessage(true);
+      setShowAlert(true);
+      setAlert({state: 'error', title: 'Error', message: error.message || error.error_description});
+      useTimeout();
     } finally {
       setLoading(false);
     }
@@ -246,9 +274,9 @@ const SignIn = () => {
           setEmail={setEmail}
           signIn={signIn}
           loading={loading}
-          openMessage={openMessage}
-          setOpenMessage={setOpenMessage}
-          message={message}
+          showAlert={showAlert}
+          setShowAlert={setShowAlert}
+          alert={alert}
         />
       }
     </div>

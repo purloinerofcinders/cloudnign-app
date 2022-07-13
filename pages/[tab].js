@@ -217,8 +217,6 @@ const SetupCompany = (props) => {
                                 className="shadow-sm focus:ring-sky-200 focus:border-sky-400 block w-full sm:text-sm border-gray-300 rounded-md"
                               >
                                 <option>Singapore</option>
-                                <option>Singapore</option>
-                                <option>Singapore</option>
                               </select>
                             </div>
                           </div>

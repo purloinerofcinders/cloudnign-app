@@ -1,4 +1,4 @@
-import { supabaseService } from "../../services/supabase";
+﻿import { supabaseService } from "../../services/supabase";
 
 const handler = async (req, res) => {
   if (req.method === 'POST') {
@@ -19,10 +19,9 @@ const handler = async (req, res) => {
     try {
       const { data, error } = await service
         .from('leaves')
-        .select()
-        .eq('applicant', profile?.id);
+        .select();
 
-      if (error) 
+      if (error)
         throw error;
 
       res.status(200).json({ leaves: data, error: null })

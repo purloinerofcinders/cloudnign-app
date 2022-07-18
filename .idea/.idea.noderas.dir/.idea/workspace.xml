@@ -5,16 +5,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d2e0f3f1-c715-484c-ac08-6da83254b495" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/libraries/alert.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libraries/loading-button.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libraries/notification.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libraries/toggle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/api/getAllLeaves.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/api/setLeave.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utilities/fetcher.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.noderas.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.noderas.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/alert.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/alert.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/dropbox.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/dropbox.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/alert.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/applyLeave.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/dashboard.leave.apply-leave.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/dashboard/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/dashboard/inviteEmployee.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/dashboard.employees.invite-employee.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/dashboard/tabs/employees.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/dashboard.employees.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/dashboard/tabs/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/dashboard.home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/dashboard/tabs/leave.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/dashboard.leave.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/dropbox.js" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/dropbox.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/message.js" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/message.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/notification.js" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/confirmation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/[tab].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/[tab].js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/getLeaves.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/getLeaves.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/error/404.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/404.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/signin.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/signin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -24,20 +52,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -48,6 +76,17 @@
       <updated>1657628688884</updated>
       <workItem from="1657628699124" duration="2635000" />
       <workItem from="1657674199777" duration="11201000" />
+      <workItem from="1657712479832" duration="1761000" />
+      <workItem from="1657802578424" duration="597000" />
+      <workItem from="1657846576916" duration="23684000" />
+      <workItem from="1657885185483" duration="3354000" />
+      <workItem from="1657945987526" duration="6290000" />
+      <workItem from="1657983552207" duration="595000" />
+      <workItem from="1658032398104" duration="3128000" />
+      <workItem from="1658036844468" duration="335000" />
+      <workItem from="1658037193493" duration="3388000" />
+      <workItem from="1658056948242" duration="11223000" />
+      <workItem from="1658109780137" duration="8670000" />
     </task>
     <task id="LOCAL-00001" summary="unv">
       <created>1657633618948</created>

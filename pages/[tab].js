@@ -2,9 +2,11 @@ import React from 'react'
 import { useState, useEffect, Fragment } from 'react'
 import { supabaseClient } from '../services/supabase';
 import Head from 'next/head'
-import Dashboard from '../components/dashboard/dashboard';
+import Dashboard from "../components/dashboard";
 import { useRouter } from 'next/router';
 import { Transition, Dialog } from '@headlessui/react'
+
+import {fetcher} from "../utilities/fetcher";
 
 const SetupCompany = (props) => {
   const [open, setOpen] = useState(false);

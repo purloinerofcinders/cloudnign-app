@@ -11,7 +11,7 @@ import {
   UsersIcon,
 } from '@heroicons/react/outline'
 
-import InviteEmployee from '../inviteEmployee'
+import InviteEmployee from "./dashboard.employees.invite-employee";
 
 const Home = (props) => {
   const [firstName, setFirstName] = useState('');
@@ -126,28 +126,28 @@ const Home = (props) => {
     },
     {
       icon: CashIcon,
-      name: 'Some Action',
-      description: 'Some Description',
+      name: '',
+      description: '',
       href: '#',
       iconForeground: 'text-yellow-700',
       iconBackground: 'bg-yellow-50'
     },
-    {
-      icon: ReceiptRefundIcon,
-      name: 'Some Action',
-      description: 'Some Description',
-      href: '#',
-      iconForeground: 'text-rose-700',
-      iconBackground: 'bg-rose-50',
-    },
-    {
-      icon: AcademicCapIcon,
-      name: 'Some Action',
-      description: 'Some Description',
-      href: '#',
-      iconForeground: 'text-indigo-700',
-      iconBackground: 'bg-indigo-50',
-    },
+    // {
+    //   icon: ReceiptRefundIcon,
+    //   name: 'Some Action 2',
+    //   description: 'Some Description',
+    //   href: '#',
+    //   iconForeground: 'text-rose-700',
+    //   iconBackground: 'bg-rose-50',
+    // },
+    // {
+    //   icon: AcademicCapIcon,
+    //   name: 'Some Action 3',
+    //   description: 'Some Description',
+    //   href: '#',
+    //   iconForeground: 'text-indigo-700',
+    //   iconBackground: 'bg-indigo-50',
+    // },
   ]
 
   const recentHires = [
@@ -215,7 +215,7 @@ const Home = (props) => {
           <div className="grid grid-cols-1 gap-4 lg:col-span-2">
             {/* Welcome panel */}
             <section aria-labelledby="profile-overview-title">
-              <div className="rounded-lg bg-white overflow-hidden shadow">
+              <div className="rounded-md bg-white overflow-hidden shadow">
                 <h2 className="sr-only" id="profile-overview-title">
                   Profile Overview
                 </h2>

@@ -1,37 +1,6 @@
 import React from 'react'
-import { useEffect } from 'react'
 
 const Employees = (props) => {
-  const people = [
-    {
-      name: 'Lindsay Walton',
-      title: 'Front-end Developer',
-      department: 'Optimization',
-      email: 'lindsay.walton@example.com',
-      role: 'Member',
-      image:
-        'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-      name: 'Lindsay Walto',
-      title: 'Front-end Developer',
-      department: 'Optimization',
-      email: 'lindsay.walto@example.com',
-      role: 'Member',
-      image:
-        'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-      name: 'Lindsay Walt',
-      title: 'Front-end Developer',
-      department: 'Optimization',
-      email: 'lindsay.walt@example.com',
-      role: 'Member',
-      image:
-        'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-  ]
-
   return (
     <main className="-mt-24 pb-8">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">

@@ -1,12 +1,7 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
 
-import Head from 'next/head'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
 import { Fragment } from 'react'
-import { Menu, Popover, Transition, Dialog } from '@headlessui/react'
+import { Transition, Dialog } from '@headlessui/react'
 
 const InviteEmployee = (props) => {
   return (

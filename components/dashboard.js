@@ -1,21 +1,21 @@
 import React from 'react'
 import { useState, useEffect, Fragment } from 'react'
 
-import { supabaseClient } from '../../services/supabase'
-
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 import { Menu, Popover, Transition } from '@headlessui/react'
 import {
   BellIcon,
-  MenuIcon,
+  MenuIcon, UserIcon,
   XIcon,
 } from '@heroicons/react/outline'
 
-import Home from './tabs/home'
-import Employees from './tabs/employees'
-import Leave from './tabs/leave'
+import Home from "./dashboard.home";
+import Leave from "./dashboard.leave";
+import Employees from "./dashboard.employees";
+
+import {fetcher} from "../utilities/fetcher";
 
 const Dashboard = (props) => {
   const router = useRouter();
@@ -27,6 +27,7 @@ const Dashboard = (props) => {
   const [employees, setEmployees] = useState([]);
 
   const [leaves, setLeaves] = useState([]);
+  const [leaveApplications, setLeaveApplications] = useState([]);
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -56,64 +57,62 @@ const Dashboard = (props) => {
   ]
 
   const getEmployees = async () => {
-    try {
-      const res = await fetch(`/api/getEmployees`, {
-        method: 'POST',
-        body: JSON.stringify({
-          session: props?.session,
-          profile: props?.profile,
-          company_id: props?.profile?.company_id
-        })
-      });
+    const data = await fetcher(`/api/getEmployees`, 'POST', {
+      session: props?.session,
+      profile: props?.profile,
+      company_id: props?.profile?.company_id
+    }); 
 
-      const data = await res.json();
-
-      if (!data) {
-        return {
-          notFound: true,
-        }
-      } else {
-        if (data.error) {
-          alert(data.error);
-        } else {
-          if (data.length === 0) {
-            alert("not found");
-          } else {
-            setEmployees(data?.employees);
-          }
-        }
-      }
-    } catch (error) {
-      alert(error);
+    if (data?.error) {
+      return;
+    } else {
+      return data?.employees;
     }
   }
 
   const getLeaves = async () => {
-    try {
-      const res = await fetch(`/api/getLeaves`, {
-        method: 'POST',
-        body: JSON.stringify({
-          session: props.session,
-          profile: props.profile
-        })
-      });
+    const data = await fetcher(`/api/getLeaves`, 'POST', {
+      session: props.session,
+      profile: props.profile
+    });
 
-      const data = await res.json();
+    if (data?.error) {
+      return;
+    } else {
+      return data?.leaves;
+    }
+  }
 
-      if (data?.error) {
-        alert(data.error);
-      } else {
-        setLeaves(data.leaves);
-      }
-    } catch (error) {
-      alert(error);
+  const getAllLeaves = async () => {
+    const data = await fetcher(`/api/getAllLeaves`, 'POST', {
+      session: props.session,
+      profile: props.profile
+    });
+
+    if (data?.error) {
+      return;
+    } else {
+      return data?.leaves;
     }
   }
 
   useEffect(() => {
     if (props.profile) {
-      getEmployees();
-      getLeaves();
+      getEmployees().then(result => {
+        setEmployees(result);
+      });
+      
+      getLeaves().then(result => {
+        setLeaves(result);
+      });
+      
+      if (props.profile?.access_level === 1) {
+        getAllLeaves().then(result => {
+          const filteredLeaves = result.filter(application => application.applicant !== props.profile?.id && application.status === 1);
+          
+          setLeaveApplications(filteredLeaves);
+        });
+      }
     }
   }, [props.profile]);
 
@@ -121,7 +120,7 @@ const Dashboard = (props) => {
     const tab = router.query?.tab;
 
     if (!['home', 'leave', 'employees', 'company', 'access', 'help'].includes(tab) && tab) {
-      router.push('/error/404');
+      router.push('/404');
     } else {
       setCurrentTab(tab);
     }
@@ -166,9 +165,9 @@ const Dashboard = (props) => {
                     {/* Profile dropdown */}
                     <Menu as="div" className="ml-4 relative flex-shrink-0">
                       <div>
-                        <Menu.Button className="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20">
+                        <Menu.Button className="flex-shrink-0 p-1 text-white rounded-full hover:text-white hover:bg-white hover:bg-opacity-10">
                           <span className="sr-only">Open user menu</span>
-                          <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                          <UserIcon className="h-6 w-6" aria-hidden="true"/>
                         </Menu.Button>
                       </div>
                       <Transition
@@ -362,6 +361,7 @@ const Dashboard = (props) => {
                 session={props.session}
                 profile={props.profile}
                 leaves={leaves}
+                leaveApplications={leaveApplications}
               />,
             'employees':
               <Employees

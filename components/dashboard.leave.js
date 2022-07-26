@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState} from 'react';
-import {CheckCircleIcon, ChevronRightIcon, ClockIcon, XCircleIcon, MinusCircleIcon, CheckIcon, XIcon} from '@heroicons/react/solid';
+import {CheckCircleIcon, ChevronRightIcon, ClockIcon, XCircleIcon, MinusCircleIcon, CheckIcon, XIcon, AdjustmentsIcon, CogIcon} from '@heroicons/react/solid';
 import ApplyLeave from "./dashboard.leave.apply-leave";
 import {DateTime} from 'luxon';
 
@@ -68,15 +68,36 @@ const Leave = (props) => {
   }
 
   return (
-    <main className="-mt-24 pb-8">
+    <main className="pb-8 mt-20">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div className="bg-white overflow-hidden rounded-lg">
+        <div className="shadow-xl bg-white dark:bg-neutral-800 overflow-hidden rounded-lg">
           <div className="px-4 py-5 sm:p-10">
-            <div hidden={props.profile?.access_level !== 1} className="flex-col space-y-5 mb-5">
-              <div className="mb-5 w-full flex justify-end">
-                <Toggle enabled={adminMode} setEnabled={setAdminMode} label="Elevated Rights" subLabel="(Elevate rights to approve/deny leaves)"/>
+            <div hidden={props.profile?.access_level !== 1} className="space-y-5 mb-10 flex flex-row justify-between">
+              <div>
+                <button
+                  type="button"
+                  className="font-bold text-4xl inline-flex items-center justify-center rounded-md px-3 py-2 border border-transparent text-neutral-800 hover:bg-neutral-50 focus:outline-none sm:w-auto"
+                  onClick={() => setAdminMode(false)}
+                >
+                  Apply
+                </button>
+                <button
+                  type="button"
+                  className="font-bold text-4xl inline-flex items-center justify-center rounded-md px-3 py-2 border border-transparent text-neutral-200 hover:bg-neutral-50 focus:outline-none sm:w-auto"
+                  onClick={() => setAdminMode(true)}
+                >
+                  Review
+                </button>
               </div>
-              <hr/>
+              <div className="">
+                <button
+                  type="button"
+                  className="text-neutral-800 hover:text-neutral-600 focus:outline-none"
+                  onClick={() => setAdminMode(true)}
+                >
+                  <CogIcon className="w-8 h-auto"/>
+                </button>
+              </div>
             </div>
             <div hidden={adminMode} className="px-4 sm:px-6 lg:px-8">
               <div className="sm:flex sm:items-center">
@@ -89,7 +110,7 @@ const Leave = (props) => {
                 <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                   <button
                     type="button"
-                    className="inline-flex items-center justify-center rounded-md border border-transparent bg-neutral-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-neutral-500 focus:outline-none sm:w-auto"
+                    className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-300 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-400 focus:outline-none sm:w-auto"
                     onClick={() => setOpenApplyLeave(true)}
                   >
                     Apply New

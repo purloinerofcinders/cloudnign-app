@@ -388,8 +388,8 @@ export default function App() {
   return (
     <div>
       <Head>
-        <title>Noderas - {session ? 'Welcome' : 'Login'}</title>
-        <meta name="description" content="Noderas" />
+        <title>Minute Moon - {session ? 'Welcome' : 'Login'}</title>
+        <meta name="description" content="Minute Moon" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {

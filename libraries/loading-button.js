@@ -5,7 +5,7 @@ const LoadingButton = (props) => {
     <button
       disabled={props.loading}
       type="submit"
-      className="disabled:bg-opacity-75 disabled:hover:bg-neutral-800 disabled:hover:bg-opacity-75 w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-neutral-800 hover:bg-neutral-600"
+      className="disabled:bg-opacity-75 disabled:hover:bg-blue-400 disabled:hover:bg-opacity-75 w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-blue-400 hover:bg-blue-500 disabled:cursor-not-allowed"
     >
       {props.loading ?
         <svg role="status"

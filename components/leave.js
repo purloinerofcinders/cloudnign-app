@@ -12,12 +12,13 @@ import {
 } from '@heroicons/react/outline'
 
 import Home from "./dashboard.home";
-import Leave from "./dashboard.leave";
+import Apply from "./apply";
 import Employees from "./dashboard.employees";
+import Review from "./review";
 
 import {fetcher} from "../utilities/fetcher";
 
-const Dashboard = (props) => {
+const Leave = (props) => {
   const router = useRouter();
 
   const [currentTab, setCurrentTab] = useState('');
@@ -142,7 +143,14 @@ const Dashboard = (props) => {
                 setOpenInviteEmployee={setOpenInviteEmployee}
               />,
             'apply':
-              <Leave
+              <Apply
+                session={props.session}
+                profile={props.profile}
+                leaves={leaves}
+                leaveApplications={leaveApplications}
+              />,
+            'review':
+              <Review
                 session={props.session}
                 profile={props.profile}
                 leaves={leaves}
@@ -158,7 +166,7 @@ const Dashboard = (props) => {
         <footer>
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
             <div className="py-8 text-sm text-white text-center sm:text-left">
-              <span className="block sm:inline">&copy; 2022 Minute Moon Private Limited</span>{' '}
+              <span className="block sm:inline">&copy; 2022 Bleuhr Private Limited</span>{' '}
               <span className="block sm:inline">All rights reserved.</span>
             </div>
           </div>
@@ -168,4 +176,4 @@ const Dashboard = (props) => {
   )
 }
 
-export default Dashboard;
+export default Leave;

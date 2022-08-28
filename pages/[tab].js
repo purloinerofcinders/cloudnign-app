@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect, Fragment } from 'react'
 import { supabaseClient } from '../services/supabase';
 import Head from 'next/head'
-import Dashboard from "../components/dashboard";
+import Leave from "../components/leave";
 import { useRouter } from 'next/router';
 import { Transition, Dialog } from '@headlessui/react'
 
@@ -388,7 +388,7 @@ export default function App() {
   return (
     <div>
       <Head>
-        <title>Minute Moon - {session ? 'Welcome' : 'Login'}</title>
+        <title>Bleuhr - {session ? 'Welcome' : 'Login'}</title>
         <meta name="description" content="Minute Moon" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -399,7 +399,7 @@ export default function App() {
           'searching':
             <Loading />,
           'authenticated':
-            <Dashboard
+            <Leave
               session={session}
               profile={profile}
               company={company}

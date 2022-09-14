@@ -160,9 +160,9 @@ const Authenticated = () => {
           <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
             <div className="text-center">
               <p
-                className="mt-1 text-4xl font-extrabold text-white sm:text-5xl sm:tracking-tight lg:text-6xl">Signed
+                className="mt-1 text-4xl font-extrabold drop-shadow text-white sm:text-5xl sm:tracking-tight lg:text-6xl">Signed
                 In.</p>
-              <p className="max-w-xl mt-5 mx-auto text-xl text-white">You may return to where you were. Or
+              <p className="max-w-xl mt-5 mx-auto drop-shadow text-xl text-white">You may return to where you were. Or
                 click&nbsp;
                 <a href='/apply' className='underline font-semibold text-white hover:text-neutral-100'>here</a>
                 &nbsp;to access the app.</p>

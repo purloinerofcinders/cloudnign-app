@@ -7,7 +7,7 @@ import {Transition} from "@headlessui/react";
 export default function Alert(props) {
   const [segue, setSegue] = useState(1);
   
-  const timeoutMs = 10000;
+  const timeoutMs = 3000;
   
   useEffect(() => {
     if (segue !== 3) {

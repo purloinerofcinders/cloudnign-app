@@ -11,12 +11,21 @@ import {
   XIcon,
 } from '@heroicons/react/outline'
 
-import Home from "./dashboard.home";
-import Apply from "./apply";
+import Apply from "./leave.apply";
 import Employees from "./dashboard.employees";
-import Review from "./review";
+import Review from "./leave.review";
 
 import {fetcher} from "../utilities/fetcher";
+import {
+  CheckCircleIcon,
+  ChevronRightIcon,
+  ClockIcon,
+  CogIcon,
+  MinusCircleIcon,
+  XCircleIcon
+} from "@heroicons/react/solid";
+import {DateTime} from "luxon";
+import Confirmation from "../libraries/confirmation";
 
 const Leave = (props) => {
   const router = useRouter();
@@ -132,40 +141,76 @@ const Leave = (props) => {
   return (
     <>
       <div className="min-h-full">
-        {
-          {
-            'home':
-              <Home
-                session={props.session}
-                profile={props.profile}
-                company={props.company}
-                openInviteEmployee={openInviteEmployee}
-                setOpenInviteEmployee={setOpenInviteEmployee}
-              />,
-            'apply':
-              <Apply
-                session={props.session}
-                profile={props.profile}
-                leaves={leaves}
-                leaveApplications={leaveApplications}
-              />,
-            'review':
-              <Review
-                session={props.session}
-                profile={props.profile}
-                leaves={leaves}
-                leaveApplications={leaveApplications}
-              />,
-            'employees':
-              <Employees
-                profile={props.profile}
-                employees={employees}
-              />
-          }[router.query?.tab]
-        }
+        <main className="pb-8 mt-20">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+            <div className="shadow-xl bg-white dark:bg-neutral-800 overflow-hidden rounded-lg">
+              <div className="px-4 py-5 sm:p-10">
+                <div hidden={props.profile?.access_level !== 1} className="space-y-5 mb-10 flex flex-row justify-between">
+                  <div>
+                    <button
+                      type="button"
+                      className={"font-bold text-3xl sm:text-4xl inline-flex items-center justify-center rounded-md px-3 py-2 border border-transparent focus:outline-none sm:w-auto " + 
+                        classNames(
+                          currentTab === "apply" ? "text-blue-400" : "text-neutral-200 hover:text-neutral-800"
+                        )
+                      }
+                      onClick={() => router.push('/apply')}
+                    >
+                      Apply
+                    </button>
+                    <button
+                      type="button"
+                      className={"font-bold text-3xl sm:text-4xl inline-flex items-center justify-center rounded-md px-3 py-2 border border-transparent focus:outline-none sm:w-auto " +
+                        classNames(
+                          currentTab === "review" ? "text-blue-400" : "text-neutral-200 hover:text-neutral-800"
+                        )
+                      }
+                      onClick={() => router.push('/review')}
+                    >
+                      Review
+                    </button>
+                  </div>
+                  <div className="flex h-fit justify-center items-center">
+                    <button
+                      type="button"
+                      className="text-neutral-600 hover:text-blue-400 focus:outline-none"
+                    >
+                      <span className="sr-only">Settings</span>
+                      <CogIcon className="w-8 h-auto"/>
+                    </button>
+                  </div>
+                </div>
+                {
+                  {
+                    'apply':
+                      <Apply
+                        session={props.session}
+                        profile={props.profile}
+                        leaves={leaves}
+                        leaveApplications={leaveApplications}
+                        getLeaves={getLeaves}
+                      />,
+                    'review':
+                      <Review
+                        session={props.session}
+                        profile={props.profile}
+                        leaves={leaves}
+                        leaveApplications={leaveApplications}
+                      />,
+                    'employees':
+                      <Employees
+                        profile={props.profile}
+                        employees={employees}
+                      />
+                  }[router.query?.tab]
+                }
+              </div>
+            </div>
+          </div>
+        </main>
         <footer>
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
-            <div className="py-8 text-sm text-white text-center sm:text-left">
+            <div className="py-8 text-sm text-white text-center sm:text-left drop-shadow">
               <span className="block sm:inline">&copy; 2022 Bleuhr Private Limited</span>{' '}
               <span className="block sm:inline">All rights reserved.</span>
             </div>

@@ -70,7 +70,7 @@ const Form = (props) => {
                   </div>
                 </form>
                 <div className="sm:hidden mt-20 text-center">
-                  <p className="drop-shadow text-neutral-800 font-medium">Ferblue Private Limited. 2022</p>
+                  <p className="drop-shadow text-neutral-800 font-medium">Bleuhr Private Limited. 2022</p>
                 </div>
                 {/*<div className="mt-6">*/}
                 {/*  <div className="relative">*/}

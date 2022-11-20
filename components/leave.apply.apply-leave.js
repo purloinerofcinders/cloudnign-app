@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 
 import DropBox from "../libraries/dropbox";
+import LoadingButton from "../libraries/loading-button";
 
 const ApplyLeave = (props) => {
   return (
@@ -47,7 +48,7 @@ const ApplyLeave = (props) => {
                               New Leave
                             </h3>
                             <p className="mt-1 text-sm text-gray-500">
-                              Fill us up with details of your leave application.
+                              Enter the details of your new leave application.
                             </p>
                           </div>
                           <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
@@ -64,7 +65,7 @@ const ApplyLeave = (props) => {
                                   name="start-date"
                                   id="start-date"
                                   value={props.startDate}
-                                  className="shadow-sm focus:ring-neutral-800 focus:border-neutral-800 block w-full sm:text-sm border-gray-300 rounded-md"
+                                  className="shadow-sm focus:ring-blue-400 focus:border-blue-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                   required
                                   onChange={(e) =>
                                     props.setStartDate(e.target.value)
@@ -86,7 +87,7 @@ const ApplyLeave = (props) => {
                                   name="end-date"
                                   id="end-date"
                                   value={props.endDate}
-                                  className="shadow-sm focus:ring-neutral-800 focus:border-neutral-800 block w-full sm:text-sm border-gray-300 rounded-md"
+                                  className="shadow-sm focus:ring-blue-400 focus:border-blue-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                   required
                                   onChange={(e) =>
                                     props.setEndDate(e.target.value)
@@ -110,7 +111,7 @@ const ApplyLeave = (props) => {
                                   name="Remarks"
                                   type="text"
                                   value={props.remarks}
-                                  className="shadow-sm focus:ring-neutral-800 focus:border-neutral-800 block w-full sm:text-sm border-gray-300 rounded-md"
+                                  className="shadow-sm focus:ring-blue-400 focus:border-blue-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                   onChange={(e) =>
                                     props.setRemarks(e.target.value)
                                   }
@@ -124,17 +125,14 @@ const ApplyLeave = (props) => {
                         <div className="flex justify-between">
                           <button
                             type="button"
-                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700"
+                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-400 hover:bg-red-700"
                             onClick={() => props.setOpen(false)}
                           >
                             Cancel
                           </button>
-                          <button
-                            type="submit"
-                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-neutral-800 hover:bg-neutral-600"
-                          >
-                            Done
-                          </button>
+                          <div className="w-fit">
+                            <LoadingButton loading={props.loading} label="Done"></LoadingButton>
+                          </div>
                         </div>
                       </div>
                     </form>

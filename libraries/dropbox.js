@@ -13,7 +13,7 @@ export default function DropBox(props) {
         <>
           <Listbox.Label className="block text-sm font-medium text-gray-700">{props?.title} {props?.required ? <span className="text-rose-600">*</span> : null}</Listbox.Label>
           <div className="mt-1 relative">
-            <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-neutral-800 focus:border-neutral-800 sm:text-sm">
+            <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 sm:text-sm">
               <span className="block truncate">{props?.selectedItem?.value}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -32,7 +32,7 @@ export default function DropBox(props) {
                     key={item.id}
                     className={({ active }) =>
                       classNames(
-                        active ? 'text-white bg-neutral-800' : 'text-gray-900',
+                        active ? 'text-white bg-blue-400' : 'text-gray-900',
                         'cursor-default select-none relative py-2 pl-8 pr-4'
                       )
                     }
@@ -47,7 +47,7 @@ export default function DropBox(props) {
                         {selected ? (
                           <span
                             className={classNames(
-                              active ? 'text-white' : 'text-neutral-800',
+                              active ? 'text-white' : 'text-blue-400',
                               'absolute inset-y-0 left-0 flex items-center pl-1.5'
                             )}
                           >

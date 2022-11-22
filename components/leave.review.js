@@ -1,6 +1,6 @@
-﻿import React, {useState} from "react";
-import {useRouter} from "next/router";
-import {fetcher} from "../utilities/fetcher";
+﻿import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { fetcher } from "../utilities/fetcher";
 import {
   CheckCircleIcon, CheckIcon,
   ChevronRightIcon,
@@ -9,22 +9,23 @@ import {
   MinusCircleIcon,
   XCircleIcon, XIcon
 } from "@heroicons/react/solid";
-import {DateTime} from "luxon";
+import { DateTime } from "luxon";
 import ApplyLeave from "./leave.apply.apply-leave";
 import Confirmation from "../libraries/confirmation";
 import Tab from "../libraries/tab";
+import LeaveDetails from "./leave.review.details";
 
 const items = [
-  {id: 1, value: 'Annual'},
-  {id: 2, value: 'Medical'},
-  {id: 3, value: 'Urgent'},
-  {id: 4, value: 'Others'},
+  { id: 1, value: 'Annual' },
+  { id: 2, value: 'Medical' },
+  { id: 3, value: 'Urgent' },
+  { id: 4, value: 'Others' },
 ]
 
 const stats = [
-  {name: 'Annual Leave', stat: '14'},
-  {name: 'Medical Leave', stat: '3'},
-  {name: 'Others (Click to expand)', stat: '80'},
+  { name: 'Annual Leave', stat: '14' },
+  { name: 'Medical Leave', stat: '3' },
+  { name: 'Others (Click to expand)', stat: '80' },
 ]
 
 const Review = (props) => {
@@ -33,8 +34,8 @@ const Review = (props) => {
   const [endDate, setEndDate] = useState("");
   const [type, setType] = useState(items[0]);
   const [remarks, setRemarks] = useState("");
-  
-  const [selectedTab, setSelectedTab] = useState(0); 
+
+  const [selectedTab, setSelectedTab] = useState(0);
 
   const [adminMode, setAdminMode] = useState(false);
 
@@ -44,7 +45,13 @@ const Review = (props) => {
     }
   })
 
+  const [showDetails, setShowDetails] = useState(false);
+
   const router = useRouter();
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+  }
 
   const submit = async () => {
     const data = await fetcher(`/api/postLeave`, 'POST', {
@@ -80,36 +87,29 @@ const Review = (props) => {
   }
 
   const tabs = [
-    { index: 0, name: 'Your Leaves', href: () => {setSelectedTab(0);}, count: '52', current: true },
-    { index: 1, name: 'Pending Approval', href: () => {setSelectedTab(1);}, count: '6', current: false },
+    { index: 0, name: 'Applied Leaves', href: () => { setSelectedTab(0); }, count: '52', current: true },
+    { index: 1, name: 'Pending Approval', href: () => { setSelectedTab(1); }, count: '6', current: false },
   ]
 
   return (
     <main>
       <div className="">
-        <div className="px-3">
-          <Tab tabs={tabs} selectedTab={selectedTab}/>
+        <div className="space-x-5 w-full px-3 mb-6">
+          <Tab tabs={tabs} selectedTab={selectedTab} />
         </div>
       </div>
-      
-      <div id="leaves" className="px-4 sm:px-6 lg:px-8 mt-8" hidden={selectedTab !== 0}>
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-xl font-semibold text-gray-900">Leave</h1>
-            <p className="mt-2 text-sm text-gray-700">
-              Leave applications for review.
-            </p>
-          </div>
-        </div>
-        <div className="bg-white mt-5 overflow-auto sm:rounded-md max-h-96">
-          <ul role="list" className="divide-y divide-gray-200">
+      <div id="leaves" className="" hidden={selectedTab !== 0}>
+        <div className="bg-white overflow-auto sm:rounded-md max-h-96 px-3">
+          <ul role="list" className="divide">
             {props?.leaves?.length === 0 ?
-              <p className='text-center text-md font-semibold text-neutral-800'>Oops! We did not find anything.</p>
+              <div className="px-4">
+                <p className='text-center text-md font-semibold text-neutral-400 bg-gray-100 py-4 rounded-lg'>Nothing to display</p>
+              </div>
               :
-              props.leaves?.map((leave) => (
+              props?.leaves?.map((leave) => (
                 <li key={leave.id}>
-                  <a href={leave.href} className="block hover:bg-gray-50">
-                    <div className="flex items-center px-4 py-4 sm:px-6">
+                  <div className="block py-0.5">
+                    <a onClick={() => setShowDetails(true)} className="flex items-center px-4 py-4 sm:px-6 hover:bg-blue-100 bg-gray-50 rounded-lg">
                       <div className="min-w-0 flex-1 flex items-center">
                         <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                           <div>
@@ -123,18 +123,18 @@ const Review = (props) => {
                             </div>
                             <div className="flex space-x-5">
                               <p className="mt-2 text-sm text-gray-500">
-                                    <span className="truncate">Type:&nbsp;
-                                      <span className="font-semibold">
-                                        {
-                                          {
-                                            1: 'Annual', 
-                                            2: 'Medical',
-                                            3: 'Urgent',
-                                            4: 'Others'
-                                          }[leave.type]
-                                        }
-                                      </span>
-                                    </span>
+                                <span className="truncate">Type:&nbsp;
+                                  <span className="font-semibold">
+                                    {
+                                      {
+                                        1: 'Annual',
+                                        2: 'Medical',
+                                        3: 'Urgent',
+                                        4: 'Others'
+                                      }[leave.type]
+                                    }
+                                  </span>
+                                </span>
                               </p>
                               <p className="mt-2 text-sm text-gray-500">
                                 Remarks: <span className="font-semibold">{leave.remarks}</span>
@@ -150,13 +150,13 @@ const Review = (props) => {
                                 {
                                   {
                                     1:
-                                      <span className='flex'><ClockIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-amber-400" aria-hidden="true"/>Pending</span>,
+                                      <span className='flex'><ClockIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-amber-400" aria-hidden="true" />Pending</span>,
                                     2:
-                                      <span className='flex'><CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" aria-hidden="true"/>Approved</span>,
+                                      <span className='flex'><CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-emerald-400" aria-hidden="true" />Approved</span>,
                                     3:
-                                      <span className='flex'><XCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-rose-400" aria-hidden="true"/>Denied</span>,
+                                      <span className='flex'><XCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-rose-400" aria-hidden="true" />Denied</span>,
                                     4:
-                                      <span className='flex'><MinusCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-neutral-400" aria-hidden="true"/>Cancelled</span>,
+                                      <span className='flex'><MinusCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-neutral-400" aria-hidden="true" />Cancelled</span>,
                                   }[leave.status]
                                 }
                               </p>
@@ -165,20 +165,22 @@ const Review = (props) => {
                         </div>
                       </div>
                       <div>
-                        <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true"/>
+                        <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                       </div>
-                    </div>
-                  </a>
+                    </a>
+                  </div>
                 </li>
               ))}
           </ul>
-        </div> 
+        </div>
       </div>
 
       <div id="toReview" className="bg-white mt-5 overflow-hidden sm:rounded-md" hidden={selectedTab !== 1}>
         <ul role="list" className="divide-y divide-gray-200">
           {props?.leaveApplications?.length === 0 ?
-            <p className='text-center text-md font-semibold text-neutral-800'>Oops! We did not find anything.</p>
+            <div className="px-4">
+              <p className='text-center text-md font-semibold text-neutral-400 bg-gray-50 py-4 rounded-lg'>Nothing to display</p>
+            </div>
             :
             props.leaveApplications?.map((leave) => (
               <li key={leave.id}>
@@ -199,18 +201,18 @@ const Review = (props) => {
 
 
                             <p className="mt-2 text-sm text-gray-500">
-                                    <span className="truncate">Type:&nbsp;
-                                      <span className="font-semibold">
-                                        {
-                                          {
-                                            1: 'Annual',
-                                            2: 'Medical',
-                                            3: 'Urgent',
-                                            4: 'Others'
-                                          }[leave.type]
-                                        }
-                                      </span>
-                                    </span>
+                              <span className="truncate">Type:&nbsp;
+                                <span className="font-semibold">
+                                  {
+                                    {
+                                      1: 'Annual',
+                                      2: 'Medical',
+                                      3: 'Urgent',
+                                      4: 'Others'
+                                    }[leave.type]
+                                  }
+                                </span>
+                              </span>
                             </p>
                             <p className="mt-2 text-sm text-gray-500">
                               Remarks: <span className="font-semibold">{leave.remarks}</span>
@@ -271,6 +273,7 @@ const Review = (props) => {
             ))}
         </ul>
       </div>
+      <LeaveDetails open={showDetails} setOpen={setShowDetails} />
     </main>
   )
 }

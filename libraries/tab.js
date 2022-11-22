@@ -25,7 +25,7 @@ export default function Tab(props) {
       </div>
       <div className="hidden sm:block">
         <div className="border-b border-gray-200">
-          <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+          <nav className="-mb-px flex" aria-label="Tabs">
             {props?.tabs.map((tab) => (
               <a
                 key={tab.name}
@@ -33,20 +33,17 @@ export default function Tab(props) {
                 href='#'
                 className={classNames(
                   tab.index === props?.selectedTab
-                    ? 'border-blue-500 text-blue-400'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200',
-                  'whitespace-nowrap flex py-4 px-1 border-b-2 font-medium text-sm'
+                    ? 'border-blue-500 text-neutral-600'
+                    : 'border-transparent text-neutral-400 hover:text-gray-700 hover:border-gray-200',
+                  'whitespace-nowrap flex border-b-4 font-semibold text-base pb-4'
                 )}
                 aria-current={tab.index === props?.selectedTab ? 'page' : undefined}
               >
-                {tab.name}
+                <span className="hover:bg-gray-100 rounded-lg px-2 py-1">
+                  {tab.name}
+                </span>
                 {tab.count ? (
-                  <span
-                    className={classNames(
-                      tab.index === props?.selectedTab ? 'bg-indigo-100 text-blue-400' : 'bg-gray-100 text-gray-900',
-                      'hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block'
-                    )}
-                  >
+                  <span className='hidden py-0.5 px-2.5 text-xs font-extrabold md:inline-block text-blue-400'>
                     {tab.count}
                   </span>
                 ) : null}

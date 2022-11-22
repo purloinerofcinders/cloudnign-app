@@ -15,7 +15,7 @@ import Apply from "./leave.apply";
 import Employees from "./dashboard.employees";
 import Review from "./leave.review";
 
-import {fetcher} from "../utilities/fetcher";
+import { fetcher } from "../utilities/fetcher";
 import {
   CheckCircleIcon,
   ChevronRightIcon,
@@ -24,7 +24,7 @@ import {
   MinusCircleIcon,
   XCircleIcon
 } from "@heroicons/react/solid";
-import {DateTime} from "luxon";
+import { DateTime } from "luxon";
 import Confirmation from "../libraries/confirmation";
 
 const Leave = (props) => {
@@ -40,7 +40,7 @@ const Leave = (props) => {
   const [leaveApplications, setLeaveApplications] = useState([]);
 
   const tabs = ['review', 'apply', 'employees', 'company', 'access', 'help'];
-  
+
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
@@ -73,7 +73,7 @@ const Leave = (props) => {
       session: props?.session,
       profile: props?.profile,
       company_id: props?.profile?.company_id
-    }); 
+    });
 
     if (data?.error) {
       return;
@@ -113,15 +113,15 @@ const Leave = (props) => {
       getEmployees().then(result => {
         setEmployees(result);
       });
-      
+
       getLeaves().then(result => {
         setLeaves(result);
       });
-      
+
       if (props.profile?.access_level === 1) {
         getAllLeaves().then(result => {
           const filteredLeaves = result.filter(application => application.applicant !== props.profile?.id && application.status === 1);
-          
+
           setLeaveApplications(filteredLeaves);
         });
       }
@@ -143,15 +143,15 @@ const Leave = (props) => {
       <div className="min-h-full">
         <main className="pb-8 mt-20">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            <div className="shadow-xl bg-white dark:bg-neutral-800 overflow-hidden rounded-lg">
+            <div className="bg-white dark:bg-neutral-800 overflow-hidden rounded-lg">
               <div className="px-4 py-5 sm:p-10">
                 <div hidden={props.profile?.access_level !== 1} className="space-y-5 mb-10 flex flex-row justify-between">
                   <div>
                     <button
                       type="button"
-                      className={"font-bold text-3xl sm:text-4xl inline-flex items-center justify-center rounded-md px-3 py-2 border border-transparent focus:outline-none sm:w-auto " + 
+                      className={"font-bold text-3xl sm:text-4xl inline-flex items-center justify-center rounded-md px-3 py-2 border border-transparent focus:outline-none sm:w-auto " +
                         classNames(
-                          currentTab === "apply" ? "text-blue-400" : "text-neutral-200 hover:text-neutral-800"
+                          currentTab === "apply" ? "text-blue-400" : "text-neutral-200 hover:text-neutral-600"
                         )
                       }
                       onClick={() => router.push('/apply')}
@@ -162,7 +162,7 @@ const Leave = (props) => {
                       type="button"
                       className={"font-bold text-3xl sm:text-4xl inline-flex items-center justify-center rounded-md px-3 py-2 border border-transparent focus:outline-none sm:w-auto " +
                         classNames(
-                          currentTab === "review" ? "text-blue-400" : "text-neutral-200 hover:text-neutral-800"
+                          currentTab === "review" ? "text-blue-400" : "text-neutral-200 hover:text-neutral-600"
                         )
                       }
                       onClick={() => router.push('/review')}
@@ -176,7 +176,7 @@ const Leave = (props) => {
                       className="text-neutral-600 hover:text-blue-400 focus:outline-none"
                     >
                       <span className="sr-only">Settings</span>
-                      <CogIcon className="w-8 h-auto"/>
+                      <CogIcon className="w-8 h-auto" />
                     </button>
                   </div>
                 </div>
@@ -210,7 +210,7 @@ const Leave = (props) => {
         </main>
         <footer>
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
-            <div className="py-8 text-sm text-white text-center sm:text-left drop-shadow">
+            <div className="py-8 text-sm text-white text-center sm:text-left">
               <span className="block sm:inline">&copy; 2022 Bleuhr Private Limited</span>{' '}
               <span className="block sm:inline">All rights reserved.</span>
             </div>

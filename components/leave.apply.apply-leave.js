@@ -125,7 +125,7 @@ const ApplyLeave = (props) => {
                         <div className="flex justify-between">
                           <button
                             type="button"
-                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-400 hover:bg-red-700"
+                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-red-400 hover:bg-red-700"
                             onClick={() => props.setOpen(false)}
                           >
                             Cancel

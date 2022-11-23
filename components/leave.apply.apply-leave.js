@@ -38,7 +38,7 @@ const ApplyLeave = (props) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative">
-                <div className="bg-white mt-20 mb-20 overflow-hidden shadow rounded-lg divide-y divide-gray-200">
+                <div className="bg-white mt-20 mb-20 overflow-hidden shadow rounded-3xl divide-y divide-gray-200">
                   <div className="px-4 py-5 sm:p-6">
                     <form className="px-10 py-10 space-y-8 divide-y divide-gray-200">
                       <div className="space-y-8 divide-y divide-gray-200">
@@ -65,7 +65,7 @@ const ApplyLeave = (props) => {
                                   name="start-date"
                                   id="start-date"
                                   value={props.startDate}
-                                  className="shadow-sm focus:ring-blue-400 focus:border-blue-400 block w-full sm:text-sm border-gray-300 rounded-md"
+                                  className="shadow-sm focus:ring-blue-400 focus:border-blue-400 block w-full sm:text-sm border-gray-300 rounded-full"
                                   required
                                   onChange={(e) =>
                                     props.setStartDate(e.target.value)
@@ -87,7 +87,7 @@ const ApplyLeave = (props) => {
                                   name="end-date"
                                   id="end-date"
                                   value={props.endDate}
-                                  className="shadow-sm focus:ring-blue-400 focus:border-blue-400 block w-full sm:text-sm border-gray-300 rounded-md"
+                                  className="shadow-sm focus:ring-blue-400 focus:border-blue-400 block w-full sm:text-sm border-gray-300 rounded-full"
                                   required
                                   onChange={(e) =>
                                     props.setEndDate(e.target.value)
@@ -111,7 +111,7 @@ const ApplyLeave = (props) => {
                                   name="Remarks"
                                   type="text"
                                   value={props.remarks}
-                                  className="shadow-sm focus:ring-blue-400 focus:border-blue-400 block w-full sm:text-sm border-gray-300 rounded-md"
+                                  className="shadow-sm focus:ring-blue-400 focus:border-blue-400 block w-full sm:text-sm border-gray-300 rounded-full"
                                   onChange={(e) =>
                                     props.setRemarks(e.target.value)
                                   }

@@ -3,6 +3,7 @@ import { useState, useEffect, Fragment } from 'react'
 
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Image from 'next/image'
 
 import { Menu, Popover, Transition } from '@headlessui/react'
 import {
@@ -141,17 +142,21 @@ const Leave = (props) => {
   return (
     <>
       <div className="min-h-full">
-        <main className="pb-8 mt-20">
+        <main>
+          <div className='text-center mt-10 mb-10'>
+            <Image src='/cloudnigh.png' fill width='100' height='100' alt='cloudnigh'></Image>
+          </div>
+
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            <div className="bg-white dark:bg-neutral-800 overflow-hidden rounded-lg">
+            <div className="bg-white overflow-hidden rounded-3xl">
               <div className="px-4 py-5 sm:p-10">
                 <div hidden={props.profile?.access_level !== 1} className="space-y-5 mb-10 flex flex-row justify-between">
-                  <div>
+                  <div className='bg-gray-100 rounded-full p-4'>
                     <button
                       type="button"
                       className={"font-bold text-3xl sm:text-4xl inline-flex items-center justify-center rounded-md px-3 py-2 border border-transparent focus:outline-none sm:w-auto " +
                         classNames(
-                          currentTab === "apply" ? "text-blue-400" : "text-neutral-200 hover:text-neutral-600"
+                          currentTab === "apply" ? "text-neutral-600" : "text-neutral-300 hover:text-neutral-500"
                         )
                       }
                       onClick={() => router.push('/apply')}
@@ -162,7 +167,7 @@ const Leave = (props) => {
                       type="button"
                       className={"font-bold text-3xl sm:text-4xl inline-flex items-center justify-center rounded-md px-3 py-2 border border-transparent focus:outline-none sm:w-auto " +
                         classNames(
-                          currentTab === "review" ? "text-blue-400" : "text-neutral-200 hover:text-neutral-600"
+                          currentTab === "review" ? "text-neutral-600" : "text-neutral-300 hover:text-neutral-500"
                         )
                       }
                       onClick={() => router.push('/review')}
@@ -173,7 +178,8 @@ const Leave = (props) => {
                   <div className="flex h-fit justify-center items-center">
                     <button
                       type="button"
-                      className="text-neutral-600 hover:text-blue-400 focus:outline-none"
+                      className="text-neutral-600 p-2 rounded-full hover:bg-gray-100 focus:outline-none"
+                      onClick={() => alert('settings')}
                     >
                       <span className="sr-only">Settings</span>
                       <CogIcon className="w-8 h-auto" />

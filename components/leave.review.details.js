@@ -38,9 +38,9 @@ const LeaveDetails = (props) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative">
-                <div className="bg-white mt-20 mb-20 overflow-hidden shadow rounded-lg divide-y divide-gray-200">
+                <div className="bg-white mt-20 mb-20 overflow-hidden shadow rounded-3xl">
                   <div className="px-4 py-5 sm:p-6">
-                    <form className="px-10 py-10 space-y-8 divide-y divide-gray-200">
+                    <form className="px-10 py-10 space-y-8">
                       <div className="space-y-8 divide-y divide-gray-200">
                         <div>
                           <div>
@@ -52,20 +52,29 @@ const LeaveDetails = (props) => {
                             </p>
                           </div>
                           <div className="mt-6 bg-gray-100 px-7 py-7 rounded-lg">
-                            <div className="grid gap-x-32 gap-y-4 grid-cols-2 text-left">
-                              <p className="text-gray-400">Status</p>
-                              <p className="text-emerald-400 font-semibold">Approved</p>
-                              <p className="text-gray-400">Start Date</p>
-                              <p className="font-semibold">1/1/1979</p>
-                              <p className="text-gray-400">End Date</p>
-                              <p className="font-semibold">1/1/1900</p>
-                              <p className="text-gray-400">Type</p>
-                              <p className="font-semibold">Annual</p>
+                            <div className="grid gap-x-20 gap-y-6 grid-cols-1 text-left sm:grid-cols-2">
+                              <div>
+                                <p className="font-semibold text-neutral-400 font-mono text-xs">STATUS</p>
+                                <p className="text-base text-neutral-800">Approved</p>
+                              </div>
+                              <div>
+                                <p className="font-semibold text-neutral-400 font-mono text-xs">TYPE</p>
+                                <p className="text-base text-neutral-800">Annual</p>
+                              </div>
+                              <div>
+                                <p className="font-semibold text-neutral-400 font-mono text-xs">START DATE</p>
+                                <p className="text-base text-neutral-800">1/1/1979</p>
+                              </div>
+                              <div>
+                                <p className="font-semibold text-neutral-400 font-mono text-xs">END DATE</p>
+                                <p className="text-base text-neutral-800">1/1/1900</p>
+                              </div>
+                              
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="pt-5">
+                      <div>
                         <div className="flex justify-between">
                           <button
                             type="button"

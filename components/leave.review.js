@@ -99,16 +99,17 @@ const Review = (props) => {
         </div>
       </div>
       <div id="leaves" className="" hidden={selectedTab !== 0}>
-        <div className="bg-white overflow-auto sm:rounded-md max-h-96 px-3">
+        <div className="bg-white overflow-auto sm:rounded-md max-h-96">
           <ul role="list" className="divide">
             {props?.leaves?.length === 0 ?
-              <div className="px-4">
-                <p className='text-center text-md font-semibold text-neutral-400 bg-gray-100 py-4 rounded-lg'>Nothing to display</p>
+              <div className="px-4 bg-gray-50 py-20 rounded-lg text-center ">
+                <h1 className='text-2xl font-semibold text-neutral-600'>No data found</h1>
+                <p className='text-neutral-400'>We did not find any leaves created by you.</p>
               </div>
               :
               props?.leaves?.map((leave) => (
                 <li key={leave.id}>
-                  <div className="block py-0.5">
+                  <div className="block py-0.5 px-3">
                     <a onClick={() => setShowDetails(true)} className="flex items-center px-4 py-4 sm:px-6 hover:bg-blue-100 bg-gray-50 rounded-lg">
                       <div className="min-w-0 flex-1 flex items-center">
                         <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
@@ -178,8 +179,9 @@ const Review = (props) => {
       <div id="toReview" className="bg-white mt-5 overflow-hidden sm:rounded-md" hidden={selectedTab !== 1}>
         <ul role="list" className="divide-y divide-gray-200">
           {props?.leaveApplications?.length === 0 ?
-            <div className="px-4">
-              <p className='text-center text-md font-semibold text-neutral-400 bg-gray-50 py-4 rounded-lg'>Nothing to display</p>
+            <div className="px-4 bg-gray-50 py-20 rounded-lg text-center ">
+              <h1 className='text-2xl font-semibold text-neutral-600'>No data found</h1>
+              <p className='text-neutral-400'>We did not find any leaves that require your approval.</p>
             </div>
             :
             props.leaveApplications?.map((leave) => (

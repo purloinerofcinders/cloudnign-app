@@ -1,4 +1,10 @@
-﻿import React from "react";
+﻿/*
+Revision 1.0
+Props received here: 
+
+*/
+
+import React from "react";
 
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
@@ -10,8 +16,8 @@ function classNames(...classes) {
 
 const Confirmation = (props) => {
   return (
-    <Transition.Root show={props.show} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={props.setShow}>
+    <Transition.Root show={props?.show} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={props?.setShow}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -43,11 +49,11 @@ const Confirmation = (props) => {
                     </div>
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                        {props.title}
+                        {props?.confirmation?.title}
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          {props.message}
+                          {props?.confirmation?.message}
                         </p>
                       </div>
                     </div>
@@ -57,17 +63,17 @@ const Confirmation = (props) => {
                   <button
                     type="button"
                     className={classNames(
-                      props.state === 'positive' ? "bg-emerald-400 hover:bg-emerald-600" : "bg-red-400 hover:bg-red-600", 
+                      props?.confirmation?.state === 'positive' ? "bg-emerald-400 hover:bg-emerald-600" : "bg-red-400 hover:bg-red-600", 
                       "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
                     )}
-                    onClick={() => props.action()}
+                    onClick={() => props?.confirmation?.action()}
                   >
-                    {props.actionLabel}
+                    {props?.confirmation?.actionLabel}
                   </button>
                   <button
                     type="button"
                     className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={() => props.setShow(false)}
+                    onClick={() => props?.setShow(false)}
                   >
                     Cancel
                   </button>

@@ -5,6 +5,8 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Image from 'next/image'
 
+import Tooltip from '../libraries/tooltip'
+
 import { Menu, Popover, Transition } from '@headlessui/react'
 import {
   BellIcon,
@@ -45,29 +47,6 @@ const Leave = (props) => {
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
-
-  const user = {
-    name: props.profile?.first_name + ' ' + props.profile?.last_name,
-    email: 'chelsea.hagon@example.com',
-    role: props.profile?.designation,
-    imageUrl:
-      'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  }
-
-  const navigation = [
-    { name: 'Home', link: 'home', current: currentTab === 'home' },
-    { name: 'Leave', link: 'leave', current: currentTab === 'leave' },
-    { name: 'Employees', link: 'employees', current: currentTab === 'employees' },
-    { name: 'Company', link: 'company', current: currentTab === 'company' },
-    { name: 'Access', link: 'access', current: currentTab === 'access' },
-    { name: 'Help', link: 'help', current: currentTab === 'help' },
-  ]
-
-  const userNavigation = [
-    { name: 'Profile', onClick: () => { } },
-    { name: 'Settings', onClick: () => { } },
-    { name: 'Sign out', onClick: () => props.signOut() },
-  ]
 
   const getEmployees = async () => {
     const data = await fetcher(`/api/getEmployees`, 'POST', {
@@ -140,11 +119,11 @@ const Leave = (props) => {
   }, [router.query]);
 
   return (
-    <>
+    <> 
       <div className="min-h-full">
         <main>
           <div className='text-center mt-10 mb-10'>
-            <Image src='/cloudnigh.png' fill width='100' height='100' alt='cloudnigh'></Image>
+            <Image src='/cloudnigh.png' width='100' height='100' alt='cloudnigh'></Image>
           </div>
 
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -172,10 +151,10 @@ const Leave = (props) => {
                       }
                       onClick={() => router.push('/review')}
                     >
-                      Review
+                      Leaves
                     </button>
                   </div>
-                  <div className="flex h-fit justify-center items-center">
+                  <div className="flex h-fit justify-center items-center group">
                     <button
                       type="button"
                       className="text-neutral-600 p-2 rounded-full hover:bg-gray-100 focus:outline-none"
@@ -184,6 +163,7 @@ const Leave = (props) => {
                       <span className="sr-only">Settings</span>
                       <CogIcon className="w-8 h-auto" />
                     </button>
+                    <Tooltip message="Settings" />
                   </div>
                 </div>
                 {

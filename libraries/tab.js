@@ -19,11 +19,11 @@ export default function Tab(props) {
                   tab.index === props?.selectedTab
                     ? 'border-blue-300 text-neutral-600'
                     : 'border-transparent text-neutral-400 hover:text-gray-700 hover:border-gray-200',
-                  'whitespace-nowrap flex border-b-4 font-semibold text-base pb-4'
+                  'whitespace-nowrap flex border-b-4 font-semibold text-base pb-4 group'
                 )}
                 aria-current={tab.index === props?.selectedTab ? 'page' : undefined}
               >
-                <span className="hover:bg-gray-100 rounded-full px-3 py-1.5">
+                <span className=" px-3 py-1.5">
                   {tab.name}
                 </span>
                 {tab.count ? (

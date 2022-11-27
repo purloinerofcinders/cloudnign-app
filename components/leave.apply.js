@@ -103,7 +103,7 @@ const Apply = (props) => {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-2xl font-semibold text-gray-800">Leave</h1>
-            <p className="mt-2 text-sm font-medium text-gray-400">
+            <p className="mt-2 text-sm font-normal text-gray-400">
               View your available leaves, pending applications, and apply for new leave here.
             </p>
           </div>

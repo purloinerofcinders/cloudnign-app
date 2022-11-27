@@ -45,7 +45,15 @@ const Review = (props) => {
     }
   })
 
+  const [showRevokeConfirmation, setShowRevokeConfirmation] = useState(false);
+  const [revokeConfirmation, setRevokeConfirmation] = useState({
+    state: '', title: '', message: '', actionLabel: '', action: () => {
+    }
+  });
+
   const [showDetails, setShowDetails] = useState(false);
+
+  const [selectedLeave, setSelectedLeave] = useState();
 
   const router = useRouter();
 
@@ -86,9 +94,26 @@ const Review = (props) => {
     }
   }
 
+  const revokeLeave = async (id) => {
+    const data = await fetcher(`/api/setLeave`, 'POST', {
+      session: props?.session,
+      id: id,
+      new_status: 4
+    });
+
+    if (data?.error) {
+      setShowRevokeConfirmation(false);
+      return;
+    } else {
+      setShowRevokeConfirmation(false);
+      setShowDetails(false);
+      return;
+    }
+  }
+
   const tabs = [
-    { index: 0, name: 'Applied Leaves', href: () => { setSelectedTab(0); }, count: '52', current: true },
-    { index: 1, name: 'Pending Approval', href: () => { setSelectedTab(1); }, count: '6', current: false },
+    { index: 0, name: 'Self', href: () => { setSelectedTab(0); }, count: '52', current: true },
+    { index: 1, name: 'Review', href: () => { setSelectedTab(1); }, count: '6', current: false },
   ]
 
   return (
@@ -110,7 +135,18 @@ const Review = (props) => {
               props?.leaves?.map((leave) => (
                 <li key={leave.id}>
                   <div className="block py-0.5 px-3">
-                    <a onClick={() => setShowDetails(true)} className="flex items-center px-4 py-4 sm:px-6 hover:bg-blue-100 bg-gray-50 rounded-lg">
+                    <a onClick={() => {
+                      setShowDetails(true); 
+                      setSelectedLeave(leave);
+
+                      setRevokeConfirmation({
+                        state: 'negative',
+                        title: 'Revoke Leave',
+                        message: 'Are you sure you would like to revoke this leave application?',
+                        actionLabel: 'Revoke',
+                        action: () => revokeLeave(leave.id)
+                      });
+                    }} className="flex items-center px-4 py-4 sm:px-6 hover:bg-gray-50  rounded-lg">
                       <div className="min-w-0 flex-1 flex items-center">
                         <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                           <div>
@@ -157,7 +193,7 @@ const Review = (props) => {
                                     3:
                                       <span className='flex'><XCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-rose-400" aria-hidden="true" />Denied</span>,
                                     4:
-                                      <span className='flex'><MinusCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-neutral-400" aria-hidden="true" />Cancelled</span>,
+                                      <span className='flex'><MinusCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-neutral-400" aria-hidden="true" />Revoked</span>,
                                   }[leave.status]
                                 }
                               </p>
@@ -240,11 +276,12 @@ const Review = (props) => {
                         onClick={() => {
                           setConfirmation({
                             state: 'positive',
-                            title: 'Confirm Action',
+                            title: 'Approve Leave',
                             message: 'Are you sure you would like to approve this leave application?',
                             actionLabel: 'Approve',
                             action: () => updateLeave(leave.id, 2)
                           });
+
                           setShowConfirmation(true);
                         }}
                       >
@@ -257,7 +294,7 @@ const Review = (props) => {
                         onClick={() => {
                           setConfirmation({
                             state: 'negative',
-                            title: 'Confirm Action',
+                            title: 'Deny Leave',
                             message: 'Are you sure you would like to deny this leave application?',
                             actionLabel: 'Deny',
                             action: () => updateLeave(leave.id, 3)
@@ -275,7 +312,8 @@ const Review = (props) => {
             ))}
         </ul>
       </div>
-      <LeaveDetails open={showDetails} setOpen={setShowDetails} />
+      <LeaveDetails show={showDetails} setShow={setShowDetails} selectedLeave={selectedLeave} revokeLeave={revokeLeave} revokeConfirmation={revokeConfirmation} showRevokeConfirmation={showRevokeConfirmation} setShowRevokeConfirmation={setShowRevokeConfirmation} />
+      <Confirmation show={showConfirmation} setShow={setShowConfirmation} confirmation={confirmation} />
     </main>
   )
 }

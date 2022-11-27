@@ -14,7 +14,7 @@ const Form = (props) => {
     <div>
       <div className="flex h-screen">
         <div className="z-10 m-auto min-h-full flex flex-col justify-center">
-          <div className="bg-white sm:py-8 px-10 sm:rounded-lg w-screen h-screen sm:w-full sm:h-full flex justify-center flex-row">
+          <div className="bg-white sm:py-8 px-10 sm:rounded-3xl w-screen h-screen sm:w-full sm:h-full flex justify-center flex-row">
             <div className="flex flex-col justify-center">
               <div className="sm:px-10 sm:py-5">
                 <div className="text-left mb-6 space-y-2">
@@ -37,7 +37,7 @@ const Form = (props) => {
                         autoComplete="email"
                         required
                         placeholder="Email address"
-                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-400 focus:border-blue-400 text-sm"
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none focus:ring-blue-400 focus:border-blue-400 text-sm"
                       />
                     </div>
                   </div>
@@ -70,7 +70,7 @@ const Form = (props) => {
                   </div>
                 </form>
                 <div className="sm:hidden mt-20 text-center">
-                  <p className="drop-shadow text-neutral-800 font-medium">Bleuhr Private Limited. 2022</p>
+                  <p className="text-neutral-800 font-medium">Bleuhr Private Limited. 2022</p>
                 </div>
                 {/*<div className="mt-6">*/}
                 {/*  <div className="relative">*/}
@@ -132,7 +132,7 @@ const Form = (props) => {
             </div>
           </div>
           <div className="hidden sm:block mt-10 text-center">
-            <p className="drop-shadow text-white font-medium">Bleuhr Private Limited. 2022</p>
+            <p className="text-white font-medium">Bleuhr Private Limited. 2022</p>
           </div>
         </div>
       </div>
@@ -160,11 +160,11 @@ const Authenticated = () => {
           <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
             <div className="text-center">
               <p
-                className="mt-1 text-4xl font-extrabold drop-shadow text-white sm:text-5xl sm:tracking-tight lg:text-6xl">Signed
+                className="mt-1 text-4xl font-extrabold text-white sm:text-5xl sm:tracking-tight lg:text-6xl">Signed
                 In.</p>
-              <p className="max-w-xl mt-5 mx-auto drop-shadow text-xl text-white">You may return to where you were. Or
+              <p className="max-w-xl mt-5 mx-auto text-xl text-white">You may return to where you were. Or
                 click&nbsp;
-                <a href='/apply' className='underline font-semibold text-white hover:text-neutral-100'>here</a>
+                <a href='/apply' className='underline font-semibold text-white hover:text-blue-400'>here</a>
                 &nbsp;to access the app.</p>
             </div>
           </div>

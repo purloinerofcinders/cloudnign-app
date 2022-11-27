@@ -1,14 +1,24 @@
 import React from "react";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 
 import DropBox from "../libraries/dropbox";
 import LoadingButton from "../libraries/loading-button";
+import Confirmation from "../libraries/confirmation";
+import { XIcon } from "@heroicons/react/solid";
+import { DateTime } from "luxon";
+import Tooltip from "../libraries/tooltip";
 
 const LeaveDetails = (props) => {
+  const [editing, setEditing] = useState(false);
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+  }
+
   return (
-    <Transition.Root show={props.open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={props.setOpen}>
+    <Transition.Root show={props.show} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={props.setShow}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -27,7 +37,7 @@ const LeaveDetails = (props) => {
             props?.submit();
           }}
         >
-          <div className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+          <div className="flex items-end sm:items-center justify-center min-h-full text-center p-4">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -55,51 +65,60 @@ const LeaveDetails = (props) => {
                             <div className="grid gap-x-20 gap-y-6 grid-cols-1 text-left sm:grid-cols-2">
                               <div>
                                 <p className="font-semibold text-neutral-400 font-mono text-xs">STATUS</p>
-                                <p className="text-base text-neutral-800">Approved</p>
+                                <p className="text-base text-neutral-800">{{
+                                  1: 'Pending',
+                                  2: 'Approved',
+                                  3: 'Denied',
+                                  4: 'Revoked'
+                                }[props?.selectedLeave?.status]}</p>
                               </div>
                               <div>
                                 <p className="font-semibold text-neutral-400 font-mono text-xs">TYPE</p>
-                                <p className="text-base text-neutral-800">Annual</p>
+                                <p className="text-base text-neutral-800">{{
+                                  1: 'Annual',
+                                  2: 'Medical',
+                                  3: 'Urgent',
+                                  4: 'Others'
+                                }[props?.selectedLeave?.type]} </p>
                               </div>
                               <div>
                                 <p className="font-semibold text-neutral-400 font-mono text-xs">START DATE</p>
-                                <p className="text-base text-neutral-800">1/1/1979</p>
+                                <p className="text-base text-neutral-800">{DateTime.fromISO(props?.selectedLeave?.start_date).toLocaleString()} </p>
                               </div>
                               <div>
                                 <p className="font-semibold text-neutral-400 font-mono text-xs">END DATE</p>
-                                <p className="text-base text-neutral-800">1/1/1900</p>
+                                <p className="text-base text-neutral-800">{DateTime.fromISO(props?.selectedLeave?.end_date).toLocaleString()}</p>
                               </div>
-                              
+
                             </div>
                           </div>
                         </div>
                       </div>
                       <div>
-                        <div className="flex justify-between">
+                        <div className={classNames("flex justify-between", props?.selectedLeave?.status === 4 ? "hidden" : "")}>
                           <button
                             type="button"
-                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-red-400 hover:bg-red-500"
-                            onClick={() => props.setOpen(false)}
+                            className="inline-flex justify-center py-2 px-4 border border-red-400 shadow-sm text-sm font-medium rounded-full text-red-400 hover:bg-red-200"
+                            onClick={() => {
+                              props?.setShowRevokeConfirmation(true);
+                            }}
                           >
-                            Cancel
+                            Revoke
                           </button>
-                          <div className="flex flex-row space-x-3">
+                          <div className={props?.selectedLeave?.status === 2 ? "flex h-fit justify-center items-center group" : "flex h-fit justify-center items-center"}>
                             <button
                               type="button"
-                              className="inline-flex justify-center py-2 px-4 border border-red-400 shadow-sm text-sm font-medium rounded-full text-red-400 hover:bg-red-200"
-                              onClick={() => props.setOpen(false)}
-                            >
-                              Delete
-                            </button>
-                            <button
-                              type="button"
-                              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-amber-400 hover:bg-amber-500"
-                              onClick={() => props.setOpen(false)}
+                              className="disabled:bg-gray-200 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-amber-400 hover:bg-amber-500 disabled:cursor-not-allowed"
+                              onClick={() => { setEditing(true); alert('hey') }}
+                              disabled={props?.selectedLeave?.status === 2}
                             >
                               Edit
                             </button>
+                            <Tooltip message="Approved leave cannot be edited" />
                           </div>
-
+                        </div>
+                        <div className={classNames("flex-wrap", ![3,4].includes(props?.selectedLeave?.status) ? "hidden" : "")}>
+                          <p className="italic text-base text-gray-400">This leave has been {{ 3:'denied', 4:'revoked'}[props?.selectedLeave?.status]}. You may not interact with it.</p>
                         </div>
                       </div>
                     </form>
@@ -109,6 +128,7 @@ const LeaveDetails = (props) => {
             </Transition.Child>
           </div>
         </div>
+        <Confirmation show={props?.showRevokeConfirmation} setShow={props?.setShowRevokeConfirmation} confirmation={props?.revokeConfirmation} />
       </Dialog>
     </Transition.Root>
   );

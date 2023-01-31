@@ -112,7 +112,7 @@ const Review = (props) => {
   }
 
   const tabs = [
-    { index: 0, name: 'Self', href: () => { setSelectedTab(0); }, count: '52', current: true },
+    { index: 0, name: 'My Leaves', href: () => { setSelectedTab(0); }, count: '52', current: true },
     { index: 1, name: 'Review', href: () => { setSelectedTab(1); }, count: '6', current: false },
   ]
 

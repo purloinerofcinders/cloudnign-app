@@ -95,7 +95,7 @@ const LeaveDetails = (props) => {
                         </div>
                       </div>
                       <div>
-                        <div className={classNames("flex justify-between", props?.selectedLeave?.status === 4 ? "hidden" : "")}>
+                        <div className={classNames("flex justify-between", [3, 4].includes(props?.selectedLeave?.status) ? "hidden" : "")}>
                           <button
                             type="button"
                             className="inline-flex justify-center py-2 px-4 border border-red-400 shadow-sm text-sm font-medium rounded-full text-red-400 hover:bg-red-200"
@@ -117,8 +117,8 @@ const LeaveDetails = (props) => {
                             <Tooltip message="Approved leave cannot be edited" />
                           </div>
                         </div>
-                        <div className={classNames("flex-wrap", ![3,4].includes(props?.selectedLeave?.status) ? "hidden" : "")}>
-                          <p className="italic text-base text-gray-400">This leave has been {{ 3:'denied', 4:'revoked'}[props?.selectedLeave?.status]}. You may not interact with it.</p>
+                        <div className={classNames("flex-wrap", ![3, 4].includes(props?.selectedLeave?.status) ? "hidden" : "")}>
+                          <p className={classNames("italic text-base", { 3:'text-red-400', 4:'text-gray-400'}[props?.selectedLeave?.status])}>This leave has been {{ 3:'denied', 4:'revoked'}[props?.selectedLeave?.status]}. You may not interact with it.</p>
                         </div>
                       </div>
                     </form>

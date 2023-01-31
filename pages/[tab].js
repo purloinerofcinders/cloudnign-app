@@ -388,8 +388,8 @@ export default function App() {
   return (
     <div>
       <Head>
-        <title>Bleuhr - {session ? 'Welcome' : 'Login'}</title>
-        <meta name="description" content="Minute Moon" />
+        <title>Cloudnigh - {session ? 'Welcome' : 'Login'}</title>
+        <meta name="description" content="Cloudnigh - Cloud based HR application" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {

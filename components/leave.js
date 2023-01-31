@@ -130,7 +130,7 @@ const Leave = (props) => {
             <div className="bg-white overflow-hidden rounded-3xl">
               <div className="px-4 py-5 sm:p-10">
                 <div hidden={props.profile?.access_level !== 1} className="space-y-5 mb-10 flex flex-row justify-between">
-                  <div className='bg-gray-100 rounded-full p-4'>
+                  <div className='bg-gray-100 rounded-3xl p-4'>
                     <button
                       type="button"
                       className={"font-bold text-3xl sm:text-4xl inline-flex items-center justify-center rounded-md px-3 py-2 border border-transparent focus:outline-none sm:w-auto " +
@@ -197,7 +197,7 @@ const Leave = (props) => {
         <footer>
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
             <div className="py-8 text-sm text-white text-center sm:text-left">
-              <span className="block sm:inline">&copy; 2022 Bleuhr Private Limited</span>{' '}
+              <span className="block sm:inline">&copy; 2022 Cloudnigh</span>{' '}
               <span className="block sm:inline">All rights reserved.</span>
             </div>
           </div>

@@ -132,7 +132,7 @@ const Form = (props) => {
             </div>
           </div>
           <div className="hidden sm:block mt-10 text-center">
-            <p className="text-white font-medium">Bleuhr Private Limited. 2022</p>
+            <p className="text-white font-medium">Cloudnigh 2022</p>
           </div>
         </div>
       </div>
